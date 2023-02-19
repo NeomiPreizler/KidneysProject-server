@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const crossoversController = require('../controllers/crossoversController')
+router.use(verifyJWT)
 router.route('/')
     .get(crossoversController.getAllcrossovers);
 

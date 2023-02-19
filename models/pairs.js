@@ -6,6 +6,7 @@ const Pairs = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
+            autoIncrement:true,
         },
         id_donater: {
             type: DataTypes.INTEGER,

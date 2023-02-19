@@ -16,16 +16,17 @@ console.log(process.env.NODE_ENV);
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cors(corsOptions));
 // app.use(bodyParser.urlencoded());
 
-
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/api/donaters", require("./routes/donatersRoutes"));
 app.use('/api/crossovers',require("./routes/crossoversRoutes"));
 app.use("/api/needDonation", require("./routes/needsDonationRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
+
 
 // app.use("/api/donaters/personal", require("./routes/donatersRoutes"));
 // app.use("/api/donaters/medical", require("./routes/donatersRoutes"));

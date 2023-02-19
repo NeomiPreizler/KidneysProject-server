@@ -2,14 +2,15 @@ const express = require('express')
 const router = express.Router()
 const donatersController = require('../controllers/donatersController')
 console.log(donatersController);
+router.use(verifyJWT)
 router.route('/')
     .get(donatersController.getAllDonaters)
     .post(donatersController.postDonater)
-    // .put(donatersController.updateDonater)
+    .put(donatersController.updateDonater)
     .delete(donatersController.deleteDonater)
 
 router.route('/:user_name')
-    .get(donatersController.getByEmail)
+    .get(donatersController.getByUserName)
     // .put(donatersController.updatePairId)
 
 

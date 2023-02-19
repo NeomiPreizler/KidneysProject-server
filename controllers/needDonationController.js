@@ -1,5 +1,8 @@
 
-const Medical_info_needsdonations = require('../models/medical_info_needsdonations');
+const needDonationDal=require('../dal/needDonationDal')
+const medicalNeedDonationDal=require('../dal/medicalInfoNeedsdonationsDal')
+const personalNeedDonationDal=require('../dal/personalInfoNeedsdonationsDal')
+const pairsDal=require('../dal/pairsDal')
 class NeedDonationController{
     getAllNeedDonation=async(req, res)=>{
         var NeedDonation=await NeedDonationDal.getAllNeedDonation();
@@ -22,18 +25,31 @@ class NeedDonationController{
             phone,fax_number,which_hospital_transplat
 
         }=req.body;
-        var needsDonationInfo = await NeedDonationDal.postNeedsDonation({ id, first_name, last_name,email,id_pair});
+
+        idsPair_ofMyPair=pairsDal.findPairInDonatersTable(id_pair);
+        if(!idsPair_ofMyPair)
+        {
+          pairExists=false
+        }
+        if(idsPair_ofMyPair!=id)
+        {
+            return res.status(400).json({ message: 'You do not appear as a pair of id_pair you have entered' })
+        }
+
+        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id, first_name, last_name,email,id_pair});
+        console.log(needsDonationInfo);
         // if (needsDonationInfo) { // Created
         //     return res.status(201).json({ message: 'New donater created'+ needsDonationInfo})
         // } else {
         //     return res.status(400).json({ message: 'Invalid donater data received' })
         // }
 
-        var needsDonationMedical=await medicalInformationDataAccessor.postMedical({idmedical_info_needsdonations,
+        var needsDonationMedical=await medicalNeedDonationDal.postMedical({idmedical_info_needsdonations,
             blood_type,hight,
             weight,birthDate,male_or_female,cause_of_kidney_failure,
             dialysis_type,dialysis_start_date,
             kidney_transplant_in_the_past,antibodies,})
+            console.log(needsDonationMedical);
 
         // if (needsDonationMedical) { // Created
         //     return res.status(201).json({ message: 'New donater created'+ needsDonationMedical})
@@ -42,26 +58,17 @@ class NeedDonationController{
         // }
 
 
-        var needDonationPersonal=await personalInformationDataAcssor.postPersonal({idpersonal_info_needsdonations,
+        var needDonationPersonal=await personalNeedDonationDal.postPersonal({idpersonal_info_needsdonations,
             address,city,cell_phone,
             phone,fax_number,which_hospital_transplat})
+            console.log(needDonationPersonal);
 
         // if (needDonationPersonal) { // Created
         //     return res.status(201).json({ message: 'New donater created'+ needDonationPersonal})
         // } else {
         //     return res.status(400).json({ message: 'Invalid donater data received' })
         // }
-    // postMedical= async (req, res) => {
-    //     var postMedical=await NeedDonationDal.postMedical(req.body);
-    //     console.log(postMedical);
-    //     res.send(postMedical);
-    // }
-
-    // postPersonal=async (req, res) => {
-    //     var postPersonal=await NeedDonationDal.postPersonal(req.body);
-    //     console.log(postPersonal);
-    //     res.send(postPersonal);
-    // }
+  
 }
 getByEmail = async (req, res) => {
     const person = await donaterDal.getByEmail(req.params.email)

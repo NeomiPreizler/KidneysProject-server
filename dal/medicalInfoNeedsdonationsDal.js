@@ -1,11 +1,21 @@
 const { DATEONLY } = require('sequelize');
 const db = require('../models/index')
 const MedicalInformation=db.medical_info_needsdonations
-class  MedicalInformationDataAccessor{
-postMedical = async(medicalData)=>{  
-    const MedicalInformation2=await MedicalInformation.create(medicalData)
-    return MedicalInformation2;
+class  medicalInfoNeedsdonationsDal{
+postMedical = async(req,res)=>{
+    const{idmedical_info_needsdonations,blood_type,hight,
+        weight,birthDate,male_or_female,cause_of_kidney_failure,
+        dialysis_type,dialysis_start_date,
+        kidney_transplant_in_the_past,antibodies}=req.body;
+
+    const medicalInformation=await MedicalInformation.create({
+        idmedical_info_needsdonations,blood_type,hight,
+        weight,birthDate,male_or_female,cause_of_kidney_failure,
+        dialysis_type,dialysis_start_date,
+        kidney_transplant_in_the_past,antibodies})
+
+    res.send(medicalInformation);
     }
 }
-const medicalInformationDataAccessor=new MedicalInformationDataAccessor()
+const medicalInformationDataAccessor=new medicalInfoNeedsdonationsDal()
 module.exports = medicalInformationDataAccessor

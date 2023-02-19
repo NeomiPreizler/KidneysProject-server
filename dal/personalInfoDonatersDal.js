@@ -5,11 +5,19 @@ const PersonalInfoDonaters = require('../models/personal_info_donaters');
 // const Donaters = db.donaters
 const PersonalInformationDonater=db.personal_info_donaters
 // const MedicalInformation=db.medical_info_donaters
-class DonatersPersonalDataAcessor{
+class personalInfoDonatersDal{
 
-    postDonater=async(donaters_personal_details)=>{
-        const donaters_medical_details = await PersonalInformationDonater.create(donaters_personal_details)
-        return donaters_medical_details;
+    postDonater=async(req,res)=>{
+        const{idpersonal_info_donater, city,
+            street, num_street, country, phone_number,
+            cell_phone, preferred_language}=req.body;
+
+        const donaterPersonalDetails = await PersonalInformationDonater.create({
+            idpersonal_info_donater,city,
+            street, num_street, country, phone_number,
+            cell_phone, preferred_language})
+        
+            res.send(donaterPersonalDetails)
     }
     deleteDonater=async(id_donater)=>{
         return await PersonalInfoDonaters.destroy({ where: {id: idpersonal_info_donater}})
@@ -28,5 +36,5 @@ class DonatersPersonalDataAcessor{
 
 
 }
-const donatersPersonalDataAcessor=new DonatersPersonalDataAcessor()
+const donatersPersonalDataAcessor=new personalInfoDonatersDal()
 module.exports = donatersPersonalDataAcessor

@@ -3,11 +3,31 @@ const db = require('../models/index')
 // const Donaters = db.donaters
 // const PersonalInformation=db.personal_info_donaters
 const MedicalInformation=db.medical_info_donaters
-class DonatersMedicalDataAcessor{
+class medicalInfoDonatersDal{
 
-    postDonater=async(donaters_medical_details)=>{
-        const medical_details = await MedicalInformation.create(donaters_medical_details)
-        return medical_details;
+    postDonater=async(req,res)=>{
+        const {idmedical_info_donater, hight, weight, birthDate,
+            male_or_female, high_blood_pressure, blood_type,
+            diabetes, kidney_diseases, keidney_stones,
+            hospitalized, surgeries_in_the_past,
+            heart_or_lung_dysfunction, medication_regularly,
+            suffer_from_allergies, smoked_in_the_past, smoking,
+            family_with_diabetes, family_with_kidney_disease,
+            family_with_kidney_stones, born_before_37th_week,
+            famiy_with_clotting_problems}=req.body;
+
+        const medical_details = await MedicalInformation.create({idmedical_info_donater,
+            hight, weight, birthDate,
+            male_or_female, high_blood_pressure, blood_type,
+            diabetes, kidney_diseases, keidney_stones,
+            hospitalized, surgeries_in_the_past,
+            heart_or_lung_dysfunction, medication_regularly,
+            suffer_from_allergies, smoked_in_the_past, smoking,
+            family_with_diabetes, family_with_kidney_disease,
+            family_with_kidney_stones, born_before_37th_week,
+            famiy_with_clotting_problems})
+        
+            res.send(medical_details);
     }
     deleteDonater=async(id_donater)=>{
       return await MedicalInformation.destroy({ where: {id: idmedical_info_donater}});
@@ -38,5 +58,5 @@ class DonatersMedicalDataAcessor{
 
 
 }
-const donatersMedicalDataAcessor=new DonatersMedicalDataAcessor()
+const donatersMedicalDataAcessor=new medicalInfoDonatersDal()
 module.exports = donatersMedicalDataAcessor

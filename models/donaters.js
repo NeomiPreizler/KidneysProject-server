@@ -5,6 +5,10 @@ const Donaters = sequelize.define("donaters", {
         allowNull: false,
         primaryKey: true,
     },
+    userName:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     first_name: {
         type: DataTypes.STRING,
         allowNull: false,

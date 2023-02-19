@@ -1,6 +1,6 @@
 const donaterDal = require('../dal/donatersDal');
-const personalInfoDonatersDal = require('../dal/personalInfoDonatersDal');
 const medicalInfoDonatersDal = require('../dal/medicalInfoDonatersDal');
+const personalInfoDonatersDal = require('../dal/personalInfoDonatersDal');
 const needDonationDal = require('../dal/needDonationDal')
 const pairDal = require('../dal/pairsDal');
 const mail = require('../utils/email');
@@ -8,21 +8,19 @@ console.log(`${donaterDal}`);
 class DonaterController {
     getAllDonaters = async (req, res) => {
         var donaters = await donaterDal.getAllDonaters();
-
         if (!donaters?.length) {
             return res.status(400).json({ message: 'No donaters found' })
         }
-        // console.log(donaters);
         res.json(donaters)
     }
-    getByEmail = async (req, res) => {
-        const person = await donaterDal.getByEmail(req.params.email)
+    getByUserName = async (req, res) => {
+        const person = await donaterDal.getByUserName(req.params.email)
         console.log(person)
         res.send(person)
 
     }
-    postDonatersDetails = async (body_) => {
-        const { id, first_name, last_name, email, id_pair,
+    postDonater = async (body_) => {
+        const {id, first_name, last_name, email, id_pair,
 
             idmedical_info_donater, hight, weight, birthDate,
             male_or_female, high_blood_pressure, blood_type,
@@ -37,18 +35,31 @@ class DonaterController {
             idpersonal_info_donater, city,
             street, num_street, country, phone_number,
             cell_phone, preferred_language } = body_;
-        var donaterInfo = await donaterDal.postDonater({ id, first_name, last_name, email, id_pair });
 
+        idsPair_ofMyPair=pairDal.findPairInNeedsTable(id_pair);
+        if(!idsPair_ofMyPair)
+        {
+          pairExists=false
+        }
+        else{
+            if(idsPair_ofMyPair!=id)
+            {
+                return res.status(400).json({ message: 'You do not appear as a pair of id_pair you have entered' })
+            }
+          }
+
+        let donaterInfo = await donaterDal.postDonater({ id, first_name, last_name, email, id_pair });
+        console.log(donaterInfo)
 
         // if (donaterInfo) { // Created
-        //      res.status(201).json({ message: 'New donater created' })
+        //     res.status(201).json({ message: 'New donater created' })
 
         // } else {
-        //      res.status(400).json({ message: 'Invalid donater data received' })
+        //     res.status(400).json({ message: 'Invalid donater data received' })
         // }
 
 
-        var donaterMedical = await medicalInfoDonatersDal.postDonater({
+        let donater_Medical = await medicalInfoDonatersDal.postDonater({
             idmedical_info_donater, hight, weight, birthDate,
             male_or_female, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
@@ -59,13 +70,21 @@ class DonaterController {
             family_with_kidney_stones, born_before_37th_week,
             famiy_with_clotting_problems,
         });
-        var donaterPersonl = await personalInfoDonatersDal.postDonater({
+        console.log(donater_Medical)
+
+        // if (donaterMedical) { // Created
+        //             return res.status(201).json({ message: 'New donater created' + donaterMedical })
+        //         } else {
+        //             return res.status(400).json({ message: 'Invalid donater data received' })
+        //         }
+
+        let donaterPersonl = await personalInfoDonatersDal.postDonater({
             idpersonal_info_donater, city,
             street, num_street, country, phone_number,
             cell_phone, preferred_language
         });
 
-        if (donaterMedical) { // Created
+        if (donaterPersonl) { // Created
             return res.status(201).json({ message: 'New donater created' + donaterMedical })
         } else {
             return res.status(400).json({ message: 'Invalid donater data received' })
@@ -74,40 +93,14 @@ class DonaterController {
 
     }
 
-    postDonater = async (req, res) => {
+    postDonater1 = async (req, res) => {
         const { id_pair } = req.body;
-        // const { id, first_name, last_name, email, id_pair,
-
-        //     idmedical_info_donater, hight, weight, birthDate,
-        //     male_or_female, high_blood_pressure, blood_type,
-        //     diabetes, kidney_diseases, keidney_stones,
-        //     hospitalized, surgeries_in_the_past,
-        //     heart_or_lung_dysfunction, medication_regularly,
-        //     suffer_from_allergies, smoked_in_the_past, smoking,
-        //     family_with_diabetes, family_with_kidney_disease,
-        //     family_with_kidney_stones, born_before_37th_week,
-        //     famiy_with_clotting_problems,
-
-        //     idpersonal_info_donater, city,
-        //     street, num_street, country, phone_number,
-        //     cell_phone, preferred_language } = req.body;
-
-        // const PersonalInformation = await PersonalInformation.create({idpersonal_info_donater,city,
-        //     street,num_street,country,email,phone_number,
-        //     sell_phone,preferred_landuage});
-
-
-        // Confirm data       
-        // if (!title){
-        //     return res.status(400).json({
-        //         message: 'All fields are required'
-        //     })
-        // }
+        
         var pair = await needDonationDal.findPair(id_pair)
             .then(() => {
                 if (pair) {
                     if (pair.id_pair == id) {
-                        postDonatersDetails(req.body);
+                        this.postDonatersDetails(req.body);
                         // donaterDal.updateThePair();
                         // needDonationDal.updateThePair(id,id_pair);
                         pairDal.updateMyPair(id, id_pair);
@@ -187,7 +180,7 @@ class DonaterController {
             const id_pair = await pairDal.deletePair(id);
             const updateNotPair = await needDonationDal.updateNoPair(has_pair.dataValues.id_needsDonation)
         }
-         
+
         const donater = await donaterDal.deleteDonater(id);
         const donaterMedical = await medicalInfoDonatersDal.deleteDonater(id);
         const donaterPersonal = await personalInfoDonatersDal.deleteDonater(id);
@@ -203,7 +196,7 @@ class DonaterController {
     }
 
 
-}
+
 updateDonater = async (req, res) => {
     const { id, last_name, avaliable, email,
 
@@ -218,35 +211,31 @@ updateDonater = async (req, res) => {
 
         idpersonal_info_donater, city, street, num_street, country,
         phone_number, cell_phone, preferred_language } = req.body;
-    console.log(id);
-    const donar = { id, last_name, avaliable, email };
-    console.log(donar);
-    const donorMedical = {
-        idmedical_info_donater,
-        hight, weight,
-        high_blood_pressure, diabetes,
-        kidney_diseases, keidney_stones,
+    
+    
+
+    var updateDonater = await donaterDal.updateDonater({id, last_name, avaliable, email});
+    console.log(updateDonater)
+
+    var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater({
+        idmedical_info_donater, hight, weight,
+        high_blood_pressure,
+        diabetes, kidney_diseases, keidney_stones,
         heart_or_lung_dysfunction,
         suffer_from_allergies, smoking,
         family_with_diabetes, family_with_kidney_disease,
         family_with_kidney_stones,
-        famiy_with_clotting_problems,
-    };
-    const donorPersonol = {
-        idpersonal_info_donater, city, street, num_street, country,
-        phone_number, cell_phone, preferred_language
-    };
+        famiy_with_clotting_problems});
 
-    var updateDonater = await donaterDal.updateDonater(donar);
-    console.log(updateDonater)
-
-    var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater(donorMedical);
     console.log(updatedonaterMedical);
 
-    var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(donorPersonol);
+    var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal({
+        idpersonal_info_donater, city, street, num_street, country,
+        phone_number, cell_phone, preferred_language});
+
     console.log(updatedonatePersonal)
 }
 
-
+}
 const donaterController = new DonaterController()
 module.exports = donaterController

@@ -5,7 +5,7 @@ const db = require('../models/index');
 const Donaters = db.donaters
 // const PersonalInformation=db.personal_info_donaters
 // const MedicalInformation=db.medical_info_donaters
-class DonatersDataAcessor {
+class donatersDal {
     // constructor(){
     //     this.init();
     // }
@@ -13,6 +13,9 @@ class DonatersDataAcessor {
     //         this.db = require('../models/index')
     //         this.Donaters = db.donaters
     // }
+    checkCorrectId(id,id_pair){
+        
+    }
 
     deleteDonater = async (id) => {
         
@@ -35,22 +38,18 @@ class DonatersDataAcessor {
         //         console.log("Error", e);
         //         return Promise.reject(e);
         //     });
-
-
-
-       
-
-
     }
     getAllDonaters = async () => {
         const donaters = await Donaters.findAll({})
         return donaters;
     }
-    postDonater = async (donaterData) => {
-        const donater_details = await Donaters.create(donaterData)
-        return donater_details;
+    postDonater = async (req,res) => {
+        const {id, first_name, last_name, email, id_pair}=req.body
+        const donater_details = await Donaters.create({id, first_name, last_name, email, id_pair})
+        res.send(donater_details)
     }
-    getByEmail = async (emailIGot) => {
+    getByUserName = async (emailIGot) => {
+        //לשנות לשם משתמש ולא דרך מייל
         const person = await Donaters.findOne({ where: { email: emailIGot } })
         return person
     }
@@ -136,5 +135,5 @@ class DonatersDataAcessor {
     //     }
     // }
 }
-const donaterDataAcessor = new DonatersDataAcessor();
+const donaterDataAcessor = new donatersDal();
 module.exports = donaterDataAcessor
