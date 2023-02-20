@@ -6,6 +6,9 @@ const Donaters = db.donaters
 // const PersonalInformation=db.personal_info_donaters
 // const MedicalInformation=db.medical_info_donaters
 class donatersDal {
+    updateNoPair = async(id) => {
+        return Donaters.update({has_pair:false},{where:{id: id }})
+    }
     // constructor(){
     //     this.init();
     // }
@@ -16,28 +19,10 @@ class donatersDal {
     checkCorrectId(id,id_pair){
         
     }
-
+    updateNoPair(){}
     deleteDonater = async (id) => {
-        
+         return await Donaters.destroy({ where: { id:id} });
 
-
-        // צריך למחוק את האדם ובנוסף את האישייים והרפואיים 
-        // וגם לעדכן את הזוג שלו שאין לו זוג וכן למחוק את הזוג מטבלת זוגות
-
-         return await donaters.destroy({ where: { id: id } });
-
-        // const id = parentRecord.id;
-
-        // return models.sequelize.transaction(function (t) {
-        //     return models.Parent.destroy({ where: { id } }, { transaction: t })
-        //         .then(async function (deleteCount) {
-        //             return await models.Child.destroy({ where: { parent.id: id } }, { transaction: t });
-        //         })
-        // })
-        //     .catch((e) => {
-        //         console.log("Error", e);
-        //         return Promise.reject(e);
-        //     });
     }
     getAllDonaters = async () => {
         const donaters = await Donaters.findAll({})
@@ -54,8 +39,6 @@ class donatersDal {
         return person
     }
     updateDonater = async (data) => {
-        console.log("hello ")
-        console.log(data)
         const { id, avaliable, email } = data
         //console.log(req.body)
         //const {id,avaliable,email}=req.body

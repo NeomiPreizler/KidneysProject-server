@@ -20,7 +20,7 @@ class personalInfoDonatersDal{
             res.send(donaterPersonalDetails)
     }
     deleteDonater=async(id_donater)=>{
-        return await PersonalInfoDonaters.destroy({ where: {id: idpersonal_info_donater}})
+        return await PersonalInfoDonaters.destroy({ where: {idpersonal_info_donater:id_donater}})
 
     }
     updateDonaterPersonal=async(req,res)=>{

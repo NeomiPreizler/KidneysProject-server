@@ -1,67 +1,62 @@
-const { Op } = require('sequelize');
+
 const { DATEONLY } = require('sequelize');
 const db = require('../models/index');
+const { Op } = require('sequelize');
+const { where } = require('sequelize');
+
 const Donaters = db.donaters
 const NeedsDonation = db.needsDonations
-const Pairs=db.pairs
+const Pairs = db.pairs
 
 class pairsDal {
-    findPairInNeedsTable=async(id_needsD)=>{
-        const IdPair= NeedsDonation.find({
-             where: {
-                id:id_needsD,
-             //    id_pair:idToCheck
-             },
-             attributes:["id_pair"]
-             // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
-          })
-          return IdPair
-        }
 
-    findPairInDonatersTable=async(id_donater)=>{
-        const IdPair= Donaters.find({
-                where: {
-                id:id_donater,
-                //    id_pair:idToCheck
-                },
-                attributes:["id_pair"]
-                // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
-            })
-            return IdPair
+    createNewPair = async (id_donater, id_needsDonation) => {
+        const newPair = await Pairs.create(id_donater, id_needsDonation)
+        if (newPair) {
+            console.log(`successfully created new pair ${newPair}`);
         }
-
-    updateMyPair = async(id_donater, id_needsDonation) => {
-        const donater_ = await Donaters.update({ has_pair: 1 }, {
+    }
+    updateHasPair = async (id_donater, id_needsDonation) => {
+        const donater_ = await Donaters.update({ has_pair: true }, {
             where: {
                 id: id_donater,
             },
         })
         if (donater_) { console.log(`successfully updated donaterId ${id_donater} as has pair`) }
 
-        const needsDonate = NeedsDonation.update({ has_pair: 1 }, {
+        const needsDonate = await NeedsDonation.update({ has_pair: true }, {
             where: {
                 id: id_needsDonation,
             },
         })
 
         if (needsDonate) { console.log(`successfully updated needsDonaterId ${id_needsDonation} as has pair`) }
+       
     }
-    // updateInPairTable(idPair_donater, idPairneedsDonation){
 
-    // }
-    findPair=async(id)=>{
-        const pair=await Pairs.findOne({where:{[Op.or]:{id:id_donater,id:id_needsDonation}}});    
+    findPairInDonatersTable(idDonater) {
+        return Donaters.findAll({
+            where: {
+                id: idDonater
+            }, attributes: [id_pair]
+        })
+    }
+    findPairInNeedDonationTable(idNeedDonation) {
+        return NeedsDonation.findAll({
+            where: {
+                id: idNeedDonation
+            }, attributes: [id_pair]
+        })
+    }
+    findPair = async (id) => {
+        const pair = await Pairs.findOne({ where: { [Op.or]: { id_donater: id, id_needsDonation: id } } });
         return pair;
     }
-    deletePair=async(id)=>{
-        
+    deletePair = async (id) => {
+
+        return await Pairs.destroy({ where: { [Op.or]: { id_donater: id, id_needsDonation: id } } });
     }
-    createNewPair=async(idPair_donater, idPairneedsDonation)=>{
-        const newPair = await Pairs.create(idPair_donater, idPairneedsDonation)
-        if(newPair){
-            console.log(`successfully created new pair ${newPair}`);
-        }
-    }
+
 
 
 }

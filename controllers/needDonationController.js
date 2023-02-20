@@ -2,7 +2,9 @@
 const needDonationDal=require('../dal/needDonationDal')
 const medicalNeedDonationDal=require('../dal/medicalInfoNeedsdonationsDal')
 const personalNeedDonationDal=require('../dal/personalInfoNeedsdonationsDal')
-const pairsDal=require('../dal/pairsDal')
+const pairDal=require('../dal/pairsDal')
+const donaterDal=require('../dal/donatersDal')
+const { donaters } = require('../models')
 class NeedDonationController{
     getAllNeedDonation=async(req, res)=>{
         var NeedDonation=await NeedDonationDal.getAllNeedDonation();
@@ -14,6 +16,9 @@ class NeedDonationController{
             res.json(NeedDonation)
             
     } 
+    updateNeedsDonater=async(req,res)=>{
+        
+    }
     postNeedDonation=async(req,res)=>{
       const{id, first_name, last_name, email,id_pair,
             idmedical_info_needsdonations,blood_type,hight,
@@ -26,12 +31,12 @@ class NeedDonationController{
 
         }=req.body;
 
-        idsPair_ofMyPair=pairsDal.findPairInDonatersTable(id_pair);
+        idsPair_ofMyPair=pairDal.findPairInDonatersTable(id_pair);
         if(!idsPair_ofMyPair)
         {
           pairExists=false
         }
-        if(idsPair_ofMyPair!=id)
+        if(idsPair_ofMyPair!=id&&pairExists)
         {
             return res.status(400).json({ message: 'You do not appear as a pair of id_pair you have entered' })
         }
@@ -70,6 +75,30 @@ class NeedDonationController{
         // }
   
 }
+deleteOne=async(req, res)=>{
+
+    const { id } = req.body
+        if (!id) {// Confirm data
+            return res.status(400).json({ message: 'donaters ID required' })
+        }
+        const hasPair = await pairDal.findPair(id);
+        if (hasPair) {
+            const updateNotPair = await donaterDal.updateNoPair(hasPair.dataValues.id_donater)
+            const id_pair = await pairDal.deletePair(id);
+        }
+
+        const medicalNeedDonation = await medicalNeedDonationDal.deleteNeedsDonater(id);
+        const personalNeedDonation = await personalNeedDonationDal.deleteNeedsDonater(id);
+        const needsDonate = await needDonationDal.deleteNeedsDonater(id);
+
+
+        // await Book.destroy({ where: {id: id}});
+        // if (remove)
+        res.json(`${id} deleted`)
+        // else
+        //     res.json(`${id} not deleted`)
+
+}
 getByEmail = async (req, res) => {
     const person = await donaterDal.getByEmail(req.params.email)
     console.log(person)
@@ -90,8 +119,7 @@ updateNeedsDonation = async (req, res) => {
     var updateNeedsDonation = await NeedDonationDal.updateNeedsDonation(id,last_name,avaliable,email);
     console.log(updateNeedsDonation)
 
-    var updateNeedsDonation = await Medical_info_needsdonations.updateMedicalNeedsDonater(idmedical_info_needsdonations,hight,
-        weight,antibodies);
+    var updateNeedsDonation = await Medical_info_needsdonations.updateMedicalNeedsDonater(idmedical_info_needsdonations,hight,weight,antibodies);
     console.log(updateNeedsDonation);
 
     // var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(donorPersonol);

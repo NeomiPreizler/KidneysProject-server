@@ -38,7 +38,7 @@ const Medical_info_donaters = sequelize.define(
         type: DataTypes.BOOLEAN,
         allowNull: true,
     },
-    keidney_stones: {
+    kidney_stones: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
     },

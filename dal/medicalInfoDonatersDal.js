@@ -2,7 +2,7 @@ const { DATEONLY } = require('sequelize');
 const db = require('../models/index')
 // const Donaters = db.donaters
 // const PersonalInformation=db.personal_info_donaters
-const MedicalInformation=db.medical_info_donaters
+const MedicalInfoDonater=db.medical_info_donaters
 class medicalInfoDonatersDal{
 
     postDonater=async(req,res)=>{
@@ -16,7 +16,7 @@ class medicalInfoDonatersDal{
             family_with_kidney_stones, born_before_37th_week,
             famiy_with_clotting_problems}=req.body;
 
-        const medical_details = await MedicalInformation.create({idmedical_info_donater,
+        const medical_details = await MedicalInfoDonater.create({idmedical_info_donater,
             hight, weight, birthDate,
             male_or_female, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
@@ -30,7 +30,7 @@ class medicalInfoDonatersDal{
             res.send(medical_details);
     }
     deleteDonater=async(id_donater)=>{
-      return await MedicalInformation.destroy({ where: {id: idmedical_info_donater}});
+      return await MedicalInfoDonater.destroy({ where: {idmedical_info_donater:id_donater}});
     }
     updateMedicalDonater=async(req,res)=>{
         const{idmedical_info_donater,
@@ -42,7 +42,8 @@ class medicalInfoDonatersDal{
             family_with_diabetes, family_with_kidney_disease,
             family_with_kidney_stones,
             famiy_with_clotting_problems}=req.body;
-            const updatemedicalDonater=await DonatersMedicalDataAcessor.update({
+
+            const updatemedicalDonater=await MedicalInfoDonater.update({
                 hight, weight,high_blood_pressure,diabetes, 
                 kidney_diseases, keidney_stones,
                 heart_or_lung_dysfunction,

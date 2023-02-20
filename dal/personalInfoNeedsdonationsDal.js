@@ -3,6 +3,10 @@ const db = require('../models/index')
 const PersonalNeedsDonation=db.personal_info_needsdonations
 
 class personalInfoNeedsdonationsDal{
+    deleteNeedsDonater=async(id)=>{
+        return await PersonalNeedsDonation.destroy({ where: {idpersonal_info_donater:id}})
+
+    }
     postPersonal = async(req,res)=>{  
         const {idpersonal_info_needsdonations,
             address,city,cell_phone,
