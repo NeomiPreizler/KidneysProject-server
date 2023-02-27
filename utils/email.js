@@ -1,36 +1,25 @@
-// var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer');
 
 // https://support.google.com/mail/answer/185833?hl=iw
 
-const sentMail =  (text,subject , email) => {
+const sendEmail =  (text,subject,email) => {
   var transporter = nodemailer.createTransport({
     service: process.env.SERVICE,
     auth: {
-      user: process.env.USER,
-      pass: process.env.PASS
+      user: process.env.USER_MAIL,
+      pass: process.env.PASSWORD_MAIL
     }
   });
 
-// var transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'myusername@gmail.com',
-//     pass: '1234-1234-1234-1234'
-//   }
-// });
 
+// '36325608008@mby.co.il'
 var mailOptions = {
-  from: process.env.USER,
+  from: process.env.USER_MAIL,
   to: email,
   subject: subject,
   text: text,
 };
-// var mailOptions = {
-//   from: 'myusername@gmail.com',
-//   to: 'user1@gmail.com, user2@gmail.com',
-//   subject: 'Sending Email using Node.js',
-//   text: 'That was easy!',
-// };
+
 
 transporter.sendMail(mailOptions, function(error, info){
   if (error) {
@@ -39,6 +28,6 @@ transporter.sendMail(mailOptions, function(error, info){
     console.log('Email sent: ' + info.response);
   }
 });
-
-module.exports={sentMail}
 }
+module.exports=sendEmail
+

@@ -4,9 +4,11 @@ const personalInfoDonatersDal = require('../dal/personalInfoDonatersDal');
 const needDonationDal = require('../dal/needDonationDal')
 const pairDal = require('../dal/pairsDal');
 const mail = require('../utils/email');
+const userController = require('./userController');
 console.log(`${donaterDal}`);
 class DonaterController {
     getAllDonaters = async (req, res) => {
+        // userController.SendingReminderEmailToUsers()
         var donaters = await donaterDal.getAllDonaters();
         if (!donaters?.length) {
             return res.status(400).json({ message: 'No donaters found' })
@@ -17,7 +19,6 @@ class DonaterController {
         const person = await donaterDal.getByEmail(req.params.email)
         console.log(person)
         res.send(person)
-
     }
     postDonatersDetails = async (body) => {
         const { id, first_name, last_name, email, id_pair,
@@ -37,7 +38,7 @@ class DonaterController {
             cell_phone, preferred_language } = body;
 
 
-        // let donaterInfo = await donaterDal.postDonater({ id, first_name, last_name, email, id_pair });
+        let donaterInfo = await donaterDal.postDonater({ id, first_name, last_name, email, id_pair });
         // if (donaterInfo) { // Created
         //     res.status(201).json({ message: 'New donater created' })
 
@@ -180,7 +181,6 @@ class DonaterController {
         //     res.json(`${id} not deleted`)
 
     }
-
 
 
     updateDonater = async (req, res) => {

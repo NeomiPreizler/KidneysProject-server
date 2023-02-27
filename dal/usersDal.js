@@ -15,6 +15,10 @@ class usersDal {
     createUser = async (userObject) => {
         return await User.create(userObject);
     };
+    findAllUsersEmail=async()=>{
+        const emails= await User.findAll({attributes:['email']});
+        return emails;
+    }
 
 }
 

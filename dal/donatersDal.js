@@ -3,8 +3,8 @@ const { DATEONLY } = require('sequelize');
 const { donaters } = require('../models/index');
 const db = require('../models/index');
 const Donaters = db.donaters
-// const PersonalInformation=db.personal_info_donaters
-// const MedicalInformation=db.medical_info_donaters
+const PersonalInformation=db.personal_info_donaters
+const MedicalInformation=db.medical_info_donaters
 class donatersDal {
     updateNoPair = async(id) => {
         return Donaters.update({has_pair:false},{where:{id: id }})
@@ -33,9 +33,10 @@ class donatersDal {
         const donater_details = await Donaters.create({id, first_name, last_name, email, id_pair})
         res.send(donater_details)
     }
-    getByUserName = async (emailIGot) => {
+    getByEmail = async (emailIGot) => {
         //לשנות לשם משתמש ולא דרך מייל
-        const person = await Donaters.findOne({ where: { email: emailIGot } })
+        const person = await Donaters.findOne({ where: { email: emailIGot } ,
+            include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation,as:'donaterMedical'}]})
         return person
     }
     updateDonater = async (data) => {
