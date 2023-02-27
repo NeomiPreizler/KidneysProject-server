@@ -10,7 +10,7 @@ const User = db.users;
 class usersDal {
 
     foundUser = async (username) => {
-        return await User.findOne({ where: { username: userName } })
+        return await User.findOne({ where: {  userName:username } })
     }
     createUser = async (userObject) => {
         return await User.create(userObject);

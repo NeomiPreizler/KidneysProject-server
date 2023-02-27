@@ -11,7 +11,6 @@ const sendEmail =  (text,subject,email) => {
     }
   });
 
-
 // '36325608008@mby.co.il'
 var mailOptions = {
   from: process.env.USER_MAIL,

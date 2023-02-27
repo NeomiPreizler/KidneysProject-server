@@ -14,7 +14,7 @@ class AuthenticationController {
                 message: 'All fields are required'
             })
         }
-        const foundUser = usersDal.foundUser(userName);
+        const foundUser =await usersDal.foundUser(userName);
 
         if (!foundUser) { //|| !foundUser.active
             return res.status(401).json({ message: 'Unauthorized' })
@@ -33,18 +33,22 @@ class AuthenticationController {
        
         const accessToken = jwt.sign(userInfo,process.env.ACCESS_TOKEN_SECRET) 
 
+
         res.json({ accessToken: accessToken })
 
     }
 
     register = async (req, res) => {
-        const { userName, email, password, roles } = req.body;
+        const { userName, email, password, role } = req.body;
+        console.log( req.body.email)
         // ValidationError()
+      
+        console.log(`${email}/n/n/n/n`);
         if (!userName || !password) {// Confirm data
             return res.status(400).json({ message: 'All fields are required' })
         }
 
-        const duplicate = usersDal.foundUser(userName);
+        const duplicate = await usersDal.foundUser(userName);
         if (duplicate) {
             return res.status(409).json({ message: "Duplicate username" })
         }
@@ -62,7 +66,11 @@ class AuthenticationController {
             return res.status(400).json({ message: 'Invalid user data received' })
 
         }
-    }
+   
+     }
 }
+
+
+
 const authController = new AuthenticationController();
 module.exports = authController;
