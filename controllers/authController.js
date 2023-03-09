@@ -57,7 +57,8 @@ class AuthenticationController {
 
         const userObject = { email, userName, password: hashedPwd };
         
-        const user = await usersDal.createUser(userObject);User.create(userObject)
+        const user = await usersDal.createUser(userObject);
+       //User.create(userObject)
         if (user) { // Created
             return res.status(201).json({
                 message: `New user ${user.userName} created`

@@ -28,10 +28,13 @@ class donatersDal {
         const donaters = await Donaters.findAll({})
         return donaters;
     }
-    postDonater = async (req,res) => {
-        const {id, first_name, last_name, email, id_pair}=req.body
-        const donater_details = await Donaters.create({id, first_name, last_name, email, id_pair})
-        res.send(donater_details)
+    postDonater = async (body) => {
+console.log(body);
+       // const {id, first_name, last_name, email, id_pair}=req.body
+        const donater_details = await Donaters.create(body)
+            //{id, first_name, last_name, email, id_pair})
+            return donater_details;
+       // res.send(donater_details)
     }
     getByEmail = async (emailIGot) => {
         //לשנות לשם משתמש ולא דרך מייל

@@ -11,8 +11,8 @@ class needDonationDal {
         this.db = require('../models/index')
         this.NeedDonation = db.needsDonations//לא לשכוח לשנות שם
     }
-    deleteNeedsDonater=async(id)=>{
-        return await Donaters.destroy({ where: {idpersonal_info_donater:id}})
+    deleteNeedsDonater = async (id) => {
+        return await Donaters.destroy({ where: { idpersonal_info_donater: id } })
 
     }
     getAllNeedDonation = async () => {
@@ -26,20 +26,26 @@ class needDonationDal {
     }
 
     findPair = async (idNeedsDonation) => {
-        return NeedDonations.find({
+        console.log(idNeedsDonation);
+        console.log("ythjfn8rjbyfvtd ");
+        //const idToReturn = await 
+       return NeedDonations.findOne({
+            attributes:['id_pair'],
             where: {
                 id: idNeedsDonation,
-            },attributes:[id_pair]
-            // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
-        })}
-    
+            }
+        })//, attributes: [id_pair]
+        // if (idToReturn)
+        //     return idToReturn//.dataValues.id_pair;
+        // else
+        //     return null;
+        // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
+    }
+
 
 
 
     //  Donaters.findAll({})
-
-
-
     getByEmail = async (emailIGot) => {
         const person = await NeedDonations.findOne({ where: { email: emailIGot } })
         return person
@@ -50,8 +56,8 @@ class needDonationDal {
         const updatedNeed = await NeedDonations.update({ last_name, avaliable, email }, { where: { id: id } })
         res.send(updatedNeed)
     }
-    updateNoPair = async(id) => {
-        return NeedDonations.update({has_pair:false},{where:{id: id }})
+    updateNoPair = async (id) => {
+        return NeedDonations.update({ has_pair: false }, { where: { id: id } })
     }
 }
 

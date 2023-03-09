@@ -5,6 +5,7 @@ const needDonationDal = require('../dal/needDonationDal')
 const pairDal = require('../dal/pairsDal');
 const mail = require('../utils/email');
 const userController = require('./userController');
+const { loadavg } = require('os');
 console.log(`${donaterDal}`);
 class DonaterController {
     getAllDonaters = async (req, res) => {
@@ -21,7 +22,8 @@ class DonaterController {
         res.send(person)
     }
     postDonatersDetails = async (body) => {
-        const { id, first_name, last_name, email, id_pair,
+        console.log(body);
+        const { id,userName, first_name, last_name, email, id_pair,
 
             idmedical_info_donater, hight, weight, birthDate,
             male_or_female, high_blood_pressure, blood_type,
@@ -38,7 +40,7 @@ class DonaterController {
             cell_phone, preferred_language } = body;
 
 
-        let donaterInfo = await donaterDal.postDonater({ id, first_name, last_name, email, id_pair });
+        let donaterInfo = await donaterDal.postDonater({ id,userName, first_name, last_name, email, id_pair });
         // if (donaterInfo) { // Created
         //     res.status(201).json({ message: 'New donater created' })
 
@@ -81,9 +83,12 @@ class DonaterController {
 
     postDonater = async (req, res) => {
         const { id, id_pair } = req.body;
-
+        console.log(id);
+        console.log(id_pair);
+        console.log(req.body);
+        console.log("ghhh");
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
-            .then(() => {
+            //.then(() => {
                 if (idsPairOfMyPair) {
                     if (idsPairOfMyPair == id) {
                         this.postDonatersDetails(req.body);
@@ -93,9 +98,10 @@ class DonaterController {
                     else { return res.send("the id of your pair is incorrect"); }
                 }
                 else {
+                    this.postDonatersDetails(req.body);
                     return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
                 }
-            })
+            //})
     };
 
 
