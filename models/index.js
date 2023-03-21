@@ -50,7 +50,8 @@ applyExtraSetup()
 // console.log(`nhvjhb ${db.needsDonations}`);
 ;
 //  {force:  true}
-db.sequelize.sync({alter:true})//force:false
+db.sequelize.sync({alter: true})//force:false
+
 .then(() => {
 console.log('yes re-sync done!')
 })

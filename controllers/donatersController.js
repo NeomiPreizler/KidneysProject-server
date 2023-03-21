@@ -22,25 +22,24 @@ class DonaterController {
         res.send(person)
     }
     postDonatersDetails = async (body) => {
-        console.log(body);
-        const { id,userName, first_name, last_name, email, id_pair,
+        console.log(body,"body");
+        const { id,userId, email, first_name, last_name, id_pair,
 
             idmedical_info_donater, hight, weight, birthDate,
-            male_or_female, high_blood_pressure, blood_type,
+            gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
             heart_or_lung_dysfunction, medication_regularly,
             suffer_from_allergies, smoked_in_the_past, smoking,
-            family_with_diabetes, family_with_kidney_disease,
-            family_with_kidney_stones, born_before_37th_week,
-            famiy_with_clotting_problems,
+            family_with_diabetes, born_before_37th_week,CT_examination,
+            cheast_examination,urine_Test,psychological_evaluation,
 
             idpersonal_info_donater, city,
-            street, num_street, country, phone_number,
+            address, country, phone_number,
             cell_phone, preferred_language } = body;
 
 
-        let donaterInfo = await donaterDal.postDonater({ id,userName, first_name, last_name, email, id_pair });
+        let donaterInfo = await donaterDal.postDonater({ id,userId, first_name, last_name, email, id_pair });
         // if (donaterInfo) { // Created
         //     res.status(201).json({ message: 'New donater created' })
 
@@ -51,14 +50,13 @@ class DonaterController {
 
         let donaterMedical = await medicalInfoDonatersDal.postDonater({
             idmedical_info_donater, hight, weight, birthDate,
-            male_or_female, high_blood_pressure, blood_type,
+            gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
             heart_or_lung_dysfunction, medication_regularly,
             suffer_from_allergies, smoked_in_the_past, smoking,
-            family_with_diabetes, family_with_kidney_disease,
-            family_with_kidney_stones, born_before_37th_week,
-            famiy_with_clotting_problems,
+            family_with_diabetes, born_before_37th_week,CT_examination,
+            cheast_examination,urine_Test,psychological_evaluation,
         });
 
         // if (donaterMedical) { // Created
@@ -69,7 +67,7 @@ class DonaterController {
 
         let donaterPersonl = await personalInfoDonatersDal.postDonater({
             idpersonal_info_donater, city,
-            street, num_street, country, phone_number,
+            address, country, phone_number,
             cell_phone, preferred_language
         });
 
@@ -82,23 +80,27 @@ class DonaterController {
     }
 
     postDonater = async (req, res) => {
-        const { id, id_pair } = req.body;
-        console.log(id);
+        console.log(req.body.values,"req.body");
+        const  id = req.body.values.id;
+        debugger
+        const  id_pair  = req.body.values.id_pair;
+        console.log(id,"id in bodrr");
         console.log(id_pair);
+        debugger
         console.log(req.body);
         console.log("ghhh");
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
             //.then(() => {
                 if (idsPairOfMyPair) {
                     if (idsPairOfMyPair == id) {
-                        this.postDonatersDetails(req.body);
+                        this.postDonatersDetails(req.body.values);
                         pairDal.updateHasPair(id, id_pair);
                         pairDal.createNewPair(id, id_pair);
                     }
                     else { return res.send("the id of your pair is incorrect"); }
                 }
                 else {
-                    this.postDonatersDetails(req.body);
+                    this.postDonatersDetails(req.body.values);
                     return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
                 }
             //})

@@ -20,11 +20,13 @@ class NeedDonationController{
     }
     
     postNeedDonation=async(req,res)=>{
-      const{id, first_name, last_name, email,id_pair,
+      const{id,userId, first_name, last_name, email,id_pair,
+
             idmedical_info_needsdonations,blood_type,hight,
             weight,birthDate,male_or_female,cause_of_kidney_failure,
             dialysis_type,dialysis_start_date,
-            kidney_transplant_in_the_past,antibodies,
+            kidney_transplant_in_the_past,antibodies,heart_rate_check,
+            psychosocial_assessment,surgical_procedure,
 
             idpersonal_info_needsdonations,address,city,cell_phone,
             phone,fax_number,which_hospital_transplat
@@ -41,7 +43,7 @@ class NeedDonationController{
             return res.status(400).json({ message: 'You do not appear as a pair of id_pair you have entered' })
         }
 
-        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id, first_name, last_name,email,id_pair});
+        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id,userId, first_name, last_name,email,id_pair});
         console.log(needsDonationInfo);
         // if (needsDonationInfo) { // Created
         //     return res.status(201).json({ message: 'New donater created'+ needsDonationInfo})
@@ -49,11 +51,12 @@ class NeedDonationController{
         //     return res.status(400).json({ message: 'Invalid donater data received' })
         // }
 
-        var needsDonationMedical=await medicalNeedDonationDal.postMedical({idmedical_info_needsdonations,
-            blood_type,hight,
+        var needsDonationMedical=await medicalNeedDonationDal.postMedical({ 
+            idmedical_info_needsdonations,blood_type,hight,
             weight,birthDate,male_or_female,cause_of_kidney_failure,
             dialysis_type,dialysis_start_date,
-            kidney_transplant_in_the_past,antibodies,})
+            kidney_transplant_in_the_past,antibodies,heart_rate_check,
+            psychosocial_assessment,surgical_procedure,})
             console.log(needsDonationMedical);
 
         // if (needsDonationMedical) { // Created

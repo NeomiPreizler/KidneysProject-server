@@ -1,3 +1,4 @@
+const { log } = require("console");
 const { users } = require(".");
 
 const {sequelize} =require("./sequelize")
@@ -15,8 +16,9 @@ const applyExtraSetup = () => {
     pairs.belongsTo(donaters,{foreignKey:"id_donater",as:"donater_in_pair"})
     links.belongsTo(needs_donations,{foreignKey:"id_needsDonation",as:"linked_needer"})
     pairs.belongsTo(needs_donations,{foreignKey:"id_needsDonation",as:"needer_in_pair"})
-    donaters.belongsTo(users,{foreignKey:"userName",as:"userDonater"})
-    needs_donations.belongsTo(users,{foreignKey:"userName",as:"userNeedsDonation"})
+    console.log("before userid");
+    donaters.belongsTo(users,{foreignKey:"userId",as:"userDonater"})
+    needs_donations.belongsTo(users,{foreignKey:"userId",as:"userNeedsDonation"})
     console.log('ok');    // links.belongsToMany()
 };
 

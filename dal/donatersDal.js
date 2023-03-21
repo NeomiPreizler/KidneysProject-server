@@ -29,7 +29,7 @@ class donatersDal {
         return donaters;
     }
     postDonater = async (body) => {
-console.log(body);
+    console.log(body);
        // const {id, first_name, last_name, email, id_pair}=req.body
         const donater_details = await Donaters.create(body)
             //{id, first_name, last_name, email, id_pair})

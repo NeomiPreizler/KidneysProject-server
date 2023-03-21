@@ -5,35 +5,36 @@ const Donaters = sequelize.define("donaters", {
         allowNull: false,
         primaryKey: true,
     },
-    userName:{
-        type: DataTypes.STRING,
-        allowNull: false,
+    userId:{
+        type: DataTypes.INTEGER,
+        // allowNull: false,
     },
+     // email: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        // },
     first_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
     },
     last_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
     },
     avaliable: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        // allowNull: false,
         defaultValue: false,
     },
     has_pair: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        // allowNull: false,
         defaultValue:false,
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+   
     id_pair:{
         type: DataTypes.INTEGER,
-        allowNull: false,
+        // allowNull: false,
     }
 },
     {

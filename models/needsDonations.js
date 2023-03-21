@@ -4,13 +4,18 @@ const NeedsDonations = sequelize.define(
     {
         id: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             allowNull: true,
             primaryKey: true,
         },
-        userName:{
-            type: DataTypes.STRING,
+        userId: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
+        // email: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        // },
         first_name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -19,6 +24,7 @@ const NeedsDonations = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+
         avaliable: {
             type: DataTypes.TINYINT,
             allowNull: false,
@@ -29,11 +35,8 @@ const NeedsDonations = sequelize.define(
             allowNull: false,
             defaultValue: 0,
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        id_pair:{
+
+        id_pair: {
             type: DataTypes.INTEGER,
             allowNull: false,
         }

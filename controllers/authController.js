@@ -34,7 +34,7 @@ class AuthenticationController {
         const accessToken = jwt.sign(userInfo,process.env.ACCESS_TOKEN_SECRET) 
 
 
-        res.json({ accessToken: accessToken })
+        res.json({ accessToken: accessToken , userName:req.body.userName })
 
     }
 

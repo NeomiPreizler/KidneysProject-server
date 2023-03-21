@@ -20,18 +20,19 @@ const PersonalInfoNeedsdonations = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        phone: {
+        phone_number: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        fax_number: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        which_hospital_transplat: {
+        country: {
             type: DataTypes.STRING,
-            allowNull: false,
-        }
+            // allowNull: true,
+        },
+        preferred_language: {
+            type: DataTypes.STRING,
+            // allowNull: true,
+        },
+     
     },
     {
         timestamps: false,//כשיוצרים מודל אם לא כותבים את זה הוא מכניס אוטומטית עוד 2 שדות נוצר ב ועודכן ב
