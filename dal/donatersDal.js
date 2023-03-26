@@ -41,7 +41,7 @@ class donatersDal {
     getByUserId = async (userid) => {
      console.log("useriddddd dal",userid);
         const person = await Donaters.findOne({ where: { userId: userid }, 
-             include:[{model: PersonalInformation,as:'donaterPersonal'}/*,{model:MedicalInformation,as:'donaterMedical'}*/]
+             include:[/*{model: PersonalInformation,as:'donaterPersonal'},*/{model:MedicalInformation,as:'donaterMedical'}]
         })
         
             
