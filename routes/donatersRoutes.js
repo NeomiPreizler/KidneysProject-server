@@ -10,12 +10,7 @@ router.route('/')
     .put(donatersController.updateDonater)
     .delete(donatersController.deleteDonater)
 
-router.route('/:user_name')
-    .get(donatersController.getByUserName)
-    // .put(donatersController.updatePairId)
+router.route('/:userId')
+    .get(donatersController.getByUserId)
 
-
-// .patch(donatersController.updateDonaters)
-// .delete(donatersController.deleteDonaters)
-// router.get('/:id', donatersController.getOneDonaters)
 module.exports = router;

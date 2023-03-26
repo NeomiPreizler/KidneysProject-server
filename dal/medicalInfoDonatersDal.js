@@ -6,8 +6,8 @@ const db = require('../models/index')
 const MedicalInfoDonater=db.medical_info_donaters
 class medicalInfoDonatersDal{
 
-    postDonater=async(req,res)=>{
-        console.log("medical body",req.body)
+    postDonater=async(body)=>{
+        console.log("medical body",body)
         // const {idmedical_info_donater, hight, weight, birthDate,
         //     male_or_female, high_blood_pressure, blood_type,
         //     diabetes, kidney_diseases, keidney_stones,
@@ -28,8 +28,8 @@ class medicalInfoDonatersDal{
         //     family_with_diabetes, family_with_kidney_disease,
         //     family_with_kidney_stones, born_before_37th_week,
         //     famiy_with_clotting_problems})
-        const medical_details = await MedicalInfoDonater.create(req.body)
-            res.send(medical_details);
+        const medical_details = await MedicalInfoDonater.create(body);
+        return (medical_details);
     }
     deleteDonater=async(id_donater)=>{
       return await MedicalInfoDonater.destroy({ where: {idmedical_info_donater:id_donater}});
@@ -42,7 +42,7 @@ class medicalInfoDonatersDal{
             heart_or_lung_dysfunction, medication_regularly,
             suffer_from_allergies, smoked_in_the_past, smoking,
             family_with_diabetes, born_before_37th_week,CT_examination,
-            cheast_examination,urine_Test,psychological_evaluation,}=req.body;
+            cheast_examination,urine_Test,psychological_evaluation}=req.body;
 
             const updatemedicalDonater=await MedicalInfoDonater.update({
                 hight, weight, birthDate,

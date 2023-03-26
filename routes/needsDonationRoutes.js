@@ -5,11 +5,11 @@ const needDonationController = require('../controllers/needDonationController');
 router.use(verifyJWT)
 router.route('/')
     .get(needDonationController.getAllNeedDonation)
-    .post(needDonationController.postNeedDonation)
+    .post(needDonationController.postNeedsDonation)
     .put(needDonationController.updateNeedsDonater)//צריך לכתוב את הפונקציה 
     .delete(needDonationController.deleteOne)
 
-router.get( '/:user_name', needDonationController.getByEmail)
+router.get( '/:userId', needDonationController.getByEmail)
 module.exports = router
 
 

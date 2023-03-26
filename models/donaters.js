@@ -1,18 +1,18 @@
 const { sequelize, DataTypes } = require("./sequelize");
 const Donaters = sequelize.define("donaters", {
-    id: {
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
     },
-    userId:{
+    id:{
         type: DataTypes.INTEGER,
         // allowNull: false,
     },
-     // email: {
-        //     type: DataTypes.STRING,
+     email: {
+            type: DataTypes.STRING,
         //     allowNull: false,
-        // },
+        },
     first_name: {
         type: DataTypes.STRING,
         // allowNull: false,

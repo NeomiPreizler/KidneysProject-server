@@ -7,10 +7,10 @@ const Medical_info_needsdonations = sequelize.define("medical_info_needsdonation
         primaryKey: true,
     },
     blood_type: {
-        type: DataTypes.STRING,
+        type:DataTypes.ENUM('O+', 'O-','A+','A-','AB+','AB-','B+','B-')
         // allowNull: false,
     },
-    hight: {
+    height: {
         type: DataTypes.INTEGER,
         //allowNull: false,
     },
@@ -37,11 +37,11 @@ const Medical_info_needsdonations = sequelize.define("medical_info_needsdonation
         // allowNull: false,
     },
     dialysis_start_date: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         //    allowNull: false,
     },
     //היה תרומה בעבר
-    kidney_transplant_in_the_past: {
+    past_kidney_donation: {
         type: DataTypes.BOOLEAN,
         // allowNull: false,
     },
@@ -65,26 +65,7 @@ const Medical_info_needsdonations = sequelize.define("medical_info_needsdonation
         type: DataTypes.BOOLEAN,
         // allowNull: false,
     },
-    //כשירה CT  בדיקת
-    CT_examination: {
-        type: DataTypes.BOOLEAN,
-        // allowNull: false,
-    },
-    //בדיקת חזה
-    cheast_examination: {
-        type: DataTypes.BOOLEAN,
-        // allowNull: false,
-    }, 
-    //בדיקת שתן
-    urine_Test: {
-        type: DataTypes.BOOLEAN,
-        // allowNull: false,
-    },
-    //אבחון פסיכולוגי
-    psychological_evaluation: {
-        type: DataTypes.BOOLEAN,
-        // allowNull: false,
-    },
+   
 },
     {
         timestamps: false,//כשיוצרים מודל אם לא כותבים את זה הוא מכניס אוטומטית עוד 2 שדות נוצר ב ועודכן ב

@@ -7,18 +7,9 @@ class personalInfoNeedsdonationsDal{
         return await PersonalNeedsDonation.destroy({ where: {idpersonal_info_donater:id}})
 
     }
-    postPersonal = async(req,res)=>{  
-        const {idpersonal_info_needsdonations,
-            address,city,cell_phone,
-            phone,fax_number,which_hospital_transplat}=req.body
-
-        const personalInformation = await PersonalNeedsDonation.create({
-            idpersonal_info_needsdonations,
-            address,city,cell_phone,
-            phone,fax_number,which_hospital_transplat})
-
-        res.send(personalInformation);
-        
+    postPersonal = async(body)=>{  
+        const personalInformation = await PersonalNeedsDonation.create(body);
+        return personalInformation;
     }  
     updateNeedsDonater= async()=>{}
 }

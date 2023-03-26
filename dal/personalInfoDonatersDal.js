@@ -1,3 +1,4 @@
+const { log } = require('console');
 const { DATEONLY } = require('sequelize');
 const db = require('../models/index');
 
@@ -7,17 +8,11 @@ const PersonalInformationDonater=db.personal_info_donaters
 // const MedicalInformation=db.medical_info_donaters
 class personalInfoDonatersDal{
 
-    postDonater=async(req,res)=>{
-        const{   idpersonal_info_donater, city,
-            address, country, phone_number,
-            cell_phone, preferred_language}=req.body;
+    postDonater=async(body)=>{
+       console.log("in personal",body.idpersonal_info_donater);
 
-        const donaterPersonalDetails = await PersonalInformationDonater.create({
-            idpersonal_info_donater, city,
-            address, country, phone_number,
-            cell_phone, preferred_language})
-        
-            res.send(donaterPersonalDetails)
+        const donaterPersonalDetails = await PersonalInformationDonater.create(body);
+        return (donaterPersonalDetails);
     }
     deleteDonater=async(id_donater)=>{
         return await PersonalInfoDonaters.destroy({ where: {idpersonal_info_donater:id_donater}})

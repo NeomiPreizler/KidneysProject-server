@@ -8,14 +8,15 @@ const jwt = require('jsonwebtoken');
 class AuthenticationController {
 
     login = async (req, res) => {
-        const { userName, password } = req.body
-        if (!userName || !password){
+        const { userName, email, password } = req.body
+        if ((!email && !userName) || !password) {
             return res.status(400).json({
                 message: 'All fields are required'
             })
         }
-        const foundUser =await usersDal.foundUser(userName);
+        const foundUser = await usersDal.foundUser(userName, email);
 
+        console.log(foundUser, "foundUser login");
         if (!foundUser) { //|| !foundUser.active
             return res.status(401).json({ message: 'Unauthorized' })
         }
@@ -28,37 +29,39 @@ class AuthenticationController {
         //const userInfo = {password, ...foundUser}
 
         const userInfo = {
-            id: foundUser.id, name: foundUser.name,
-            roles: foundUser.roles, userName: foundUser.userName}
-       
-        const accessToken = jwt.sign(userInfo,process.env.ACCESS_TOKEN_SECRET) 
+            id: foundUser.userId, email: foundUser.email, password: foundUser.password,
+            roles: foundUser.roles, userName: foundUser.userName
+        }
 
+        const accessToken = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET)
 
-        res.json({ accessToken: accessToken , userName:req.body.userName })
+       console.log(foundUser.id); 
+        res.json({ accessToken: accessToken, userId: foundUser.userId })
 
     }
 
     register = async (req, res) => {
         const { userName, email, password, role } = req.body;
-        console.log( req.body.email)
+        console.log(req.body.email)
         // ValidationError()
-      
-        console.log(`${email}/n/n/n/n`);
-        if (!userName || !password) {// Confirm data
+
+        console.log(`${userName}/n/n/n/n`);
+        console.log(`${password}/n/n/n/n`);
+
+        if (!email || !userName || !password) {// Confirm data
             return res.status(400).json({ message: 'All fields are required' })
         }
 
-        const duplicate = await usersDal.foundUser(userName);
+        const duplicate = await usersDal.foundUser(userName, email);
         if (duplicate) {
             return res.status(409).json({ message: "Duplicate username" })
         }
-
+        console.log("duplicate", duplicate);
         const hashedPwd = await bcrypt.hash(password, 10);
 
         const userObject = { email, userName, password: hashedPwd };
-        
+
         const user = await usersDal.createUser(userObject);
-       //User.create(userObject)
         if (user) { // Created
             return res.status(201).json({
                 message: `New user ${user.userName} created`
@@ -67,8 +70,8 @@ class AuthenticationController {
             return res.status(400).json({ message: 'Invalid user data received' })
 
         }
-   
-     }
+
+    }
 }
 
 

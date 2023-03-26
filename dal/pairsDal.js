@@ -34,20 +34,7 @@ class pairsDal {
        
     }
 
-    findPairInDonatersTable(idDonater) {
-        return Donaters.findAll({
-            where: {
-                id: idDonater
-            }, attributes: [id_pair]
-        })
-    }
-    findPairInNeedDonationTable(idNeedDonation) {
-        return NeedsDonation.findAll({
-            where: {
-                id: idNeedDonation
-            }, attributes: [id_pair]
-        })
-    }
+   
     findPair = async (id) => {
         const pair = await Pairs.findOne({ where: { [Op.or]: { id_donater: id, id_needsDonation: id } } });
         return pair;

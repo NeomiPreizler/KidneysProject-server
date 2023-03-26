@@ -6,9 +6,9 @@ const {sequelize} =require("./sequelize")
 const applyExtraSetup = () => {
     
     const { links, circles, pairs,donaters,medical_info_donaters,personal_info_donaters,needs_donations, personal_info_needsdonations,medical_info_needsdonations,users} = sequelize.models;
-    // console.log(`${needs_donations}`);
+
     medical_info_donaters.belongsTo(donaters, { foreignKey: "idmedical_info_donater", as: "donatersMedical" });
-    personal_info_donaters.belongsTo(donaters, { foreignKey: "idpersonal_info_donaters", as: "donaterPersonal" });
+    personal_info_donaters.belongsTo(donaters, { foreignKey: "idpersonal_info_donater", as: "donaterPersonal" });
     medical_info_needsdonations.belongsTo(needs_donations,{foreignKey:"id_needs_transplent" ,as:"needsDonationsMedical" } )
     personal_info_needsdonations.belongsTo(needs_donations,{foreignKey:"idpersonal_info_needsdonations" ,as:"needsDonationsPersonal" } )
     links.hasMany(circles,{foreignKey:"id_circle_inlink", as:"circles"})
@@ -19,7 +19,7 @@ const applyExtraSetup = () => {
     console.log("before userid");
     donaters.belongsTo(users,{foreignKey:"userId",as:"userDonater"})
     needs_donations.belongsTo(users,{foreignKey:"userId",as:"userNeedsDonation"})
-    console.log('ok');    // links.belongsToMany()
+    console.log('ok extra setup');    // links.belongsToMany()
 };
 
 module.exports={applyExtraSetup};

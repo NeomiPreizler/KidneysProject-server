@@ -19,10 +19,10 @@ class needDonationDal {
         const needDonation = await NeedDonations.findAll({})
         return needDonation;
     }
-    postNeedsDonation = async (req, res) => {
-        const { id, first_name, last_name, email, id_pair } = req.body;
-        const needDonationInfo = await NeedDonations.create({ id, first_name, last_name, email, id_pair })
-        res.send(needDonationInfo);
+    postNeedsDonation = async (body) => {
+        
+        const needDonationInfo = await NeedDonations.create(body)
+       return needDonationInfo;
     }
 
     findPair = async (idNeedsDonation) => {

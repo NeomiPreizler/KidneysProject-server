@@ -20,6 +20,7 @@ const Medical_info_donaters = sequelize.define(
     },
     gender: {
         type:DataTypes.ENUM('MALE', 'FEMALE'),
+
         // allowNull: false,
     },
     //לחץ דם גבוה
@@ -28,7 +29,7 @@ const Medical_info_donaters = sequelize.define(
         // allowNull: false,
     },
     blood_type: {
-        type:DataTypes.ENUM('O+', 'O-','A+','A-','AB+','AB-','B+','B-'),
+        type:DataTypes.ENUM('O+', 'O-','A+','A-','AB+','AB-','B+','B-')
         // type: DataTypes.STRING,
         // allowNull: false,
     },

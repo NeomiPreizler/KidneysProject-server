@@ -6,7 +6,8 @@ const pairDal = require('../dal/pairsDal');
 const mail = require('../utils/email');
 const userController = require('./userController');
 const { loadavg } = require('os');
-console.log(`${donaterDal}`);
+const { log } = require('console');
+
 class DonaterController {
     getAllDonaters = async (req, res) => {
         // userController.SendingReminderEmailToUsers()
@@ -16,14 +17,16 @@ class DonaterController {
         }
         res.json(donaters)
     }
-    getByUserName = async (req, res) => {
-        const person = await donaterDal.getByEmail(req.params.email)
+    getByUserId = async (req, res) => {
+        console.log("useriddddddddd", req.params.userId);
+
+        const person = await donaterDal.getByUserId(req.params.userId)
         console.log(person)
         res.send(person)
     }
     postDonatersDetails = async (body) => {
-        console.log(body,"body");
-        const { id,userId, email, first_name, last_name, id_pair,
+        console.log(body, "body");
+        const { id, userId, email, first_name, last_name, id_pair,
 
             idmedical_info_donater, hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
@@ -31,15 +34,15 @@ class DonaterController {
             hospitalized, surgeries_in_the_past,
             heart_or_lung_dysfunction, medication_regularly,
             suffer_from_allergies, smoked_in_the_past, smoking,
-            family_with_diabetes, born_before_37th_week,CT_examination,
-            cheast_examination,urine_Test,psychological_evaluation,
+            family_with_diabetes, born_before_37th_week, CT_examination,
+            cheast_examination, urine_Test, psychological_evaluation,
 
             idpersonal_info_donater, city,
             address, country, phone_number,
             cell_phone, preferred_language } = body;
-
-
-        let donaterInfo = await donaterDal.postDonater({ id,userId, first_name, last_name, email, id_pair });
+        console.log("crasy number", phone_number);
+        console.log("this is for noimi", idmedical_info_donater);
+        let donaterInfo = await donaterDal.postDonater({ id, userId, first_name, last_name, email, id_pair });
         // if (donaterInfo) { // Created
         //     res.status(201).json({ message: 'New donater created' })
 
@@ -55,8 +58,8 @@ class DonaterController {
             hospitalized, surgeries_in_the_past,
             heart_or_lung_dysfunction, medication_regularly,
             suffer_from_allergies, smoked_in_the_past, smoking,
-            family_with_diabetes, born_before_37th_week,CT_examination,
-            cheast_examination,urine_Test,psychological_evaluation,
+            family_with_diabetes, born_before_37th_week, CT_examination,
+            cheast_examination, urine_Test, psychological_evaluation,
         });
 
         // if (donaterMedical) { // Created
@@ -64,7 +67,7 @@ class DonaterController {
         //         } else {
         //             return res.status(400).json({ message: 'Invalid donater data received' })
         //         }
-
+        console.log("noty phone_number", phone_number);
         let donaterPersonl = await personalInfoDonatersDal.postDonater({
             idpersonal_info_donater, city,
             address, country, phone_number,
@@ -80,87 +83,32 @@ class DonaterController {
     }
 
     postDonater = async (req, res) => {
-        console.log(req.body.values,"req.body");
-        const  id = req.body.values.id;
-        debugger
-        const  id_pair  = req.body.values.id_pair;
-        console.log(id,"id in bodrr");
-        console.log(id_pair);
-        debugger
-        console.log(req.body);
-        console.log("ghhh");
+        // console.log(req.body.values,"req.body");
+
+        const { id, id_pair } = req.body;
+        // const { } = req.body;
+
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
-            //.then(() => {
-                if (idsPairOfMyPair) {
-                    if (idsPairOfMyPair == id) {
-                        this.postDonatersDetails(req.body.values);
-                        pairDal.updateHasPair(id, id_pair);
-                        pairDal.createNewPair(id, id_pair);
-                    }
-                    else { return res.send("the id of your pair is incorrect"); }
-                }
-                else {
-                    this.postDonatersDetails(req.body.values);
-                    return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
-                }
-            //})
+
+        if (idsPairOfMyPair) {
+            if (idsPairOfMyPair == id) {
+                await this.postDonatersDetails(req.body);
+                pairDal.updateHasPair(id, id_pair);
+                pairDal.createNewPair(id, id_pair);
+            }
+            else { return res.status(400).json({ message: 'You do not appear as a pair of id_pair you have entered' }) }
+            // else { return res.send("the id of your pair is incorrect"); }
+        }
+        else {
+            await this.postDonatersDetails(req.body);
+            return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
+        }
+
     };
 
-
-    // var RightPair = await needDonationDal.findRightPair(pair.dataValue.id_pair, id)
-    //     .then(() => {
-
-    //         if (RightPair) {
-    //             //  pair.dataValue.
-    //             needDonationDal.updateHasPair(s); }
-    //         else {
-    //             return res.send("the id of your pair is incorrect")
-    //         }
-    //     })
-
-    //     else {
-    // return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
-
-
-
-    // mail.sentMail(`this is your order! \n ${JSON.stringify(addedOrder)}`,'Sending Email using Node.js server - Your Order','36325593952@mby.co.il');
-    // return res.status(201).json({ message: 'New order created',data:addedOrder});
-    // needDonationDal.updateNotPair();
-    // }
-
-
-
-
-
-    // if (donaterPersonl) { // Created
-    //             return res.status(201).json({ message: 'New donater created'+donaterPersonl })
-    //         } else {
-    //             return res.status(400).json({ message: 'Invalid donater data received' })
-    //         }
-
-
-
-    //     console.log(donater1);
-    //     res.send(donater1);
-    // }
-
-    // postMedical= async (req, res) => {
-    //     var postMedical=await donaterDal.postMedical(req.body);
-    //     //var second = await 
-    //     console.log(postMedical);
-    //     res.send(postMedical);
-    // }
-
-    // postPersonal=async (req, res) => {
-    //     var postPersonal=await donaterDal.postPersonal(req.body);
-    //     console.log(postPersonal);
-    //     res.send(postPersonal);
-    // }
     updatePairId = async () => {
-
         // צריך לעדכן את הזוג אצלו אחרי שנשלח מייל לזוג שרוצים לשנות והוא הסכים לשינוי ואחכ לשנות לזוג 
         // את הזהות של הזוג שלו ולבדוק בטבלה של השני אם יש כזה אדם ולשנות אצלו את הזוג לזמין וגם בטבתל זוגות אם הזוג היה זמין
-
     }
 
     deleteDonater = async (req, res) => {
@@ -180,16 +128,12 @@ class DonaterController {
         const donaterPersonal = await personalInfoDonatersDal.deleteDonater(id);
         const donater = await donaterDal.deleteDonater(id);
 
-
-
         // await Book.destroy({ where: {id: id}});
         // if (remove)
         res.json(`${id} deleted`)
         // else
         //     res.json(`${id} not deleted`)
-
     }
-
 
     updateDonater = async (req, res) => {
         const { id, last_name, avaliable, email,
@@ -205,8 +149,6 @@ class DonaterController {
 
             idpersonal_info_donater, city, street, num_street, country,
             phone_number, cell_phone, preferred_language } = req.body;
-
-
 
         var updateDonater = await donaterDal.updateDonater({ id, last_name, avaliable, email });
         console.log(updateDonater)
@@ -233,5 +175,5 @@ class DonaterController {
     }
 }
 
-const donaterController = new DonaterController()
-module.exports = donaterController
+const donaterController = new DonaterController();
+module.exports = donaterController;

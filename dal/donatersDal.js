@@ -9,13 +9,7 @@ class donatersDal {
     updateNoPair = async(id) => {
         return Donaters.update({has_pair:false},{where:{id: id }})
     }
-    // constructor(){
-    //     this.init();
-    // }
-    //     init= async()=>{
-    //         this.db = require('../models/index')
-    //         this.Donaters = db.donaters
-    // }
+    
     checkCorrectId(id,id_pair){
         
     }
@@ -36,10 +30,21 @@ class donatersDal {
             return donater_details;
        // res.send(donater_details)
     }
-    getByEmail = async (emailIGot) => {
-        //לשנות לשם משתמש ולא דרך מייל
-        const person = await Donaters.findOne({ where: { email: emailIGot } ,
-            include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation,as:'donaterMedical'}]})
+    findPair=async(idDonater)=>{
+        return Donaters.findOne({
+            attributes:['id_pair'],
+            where:{
+                id:idDonater,
+            }
+        })
+    }
+    getByUserId = async (userid) => {
+     console.log("useriddddd dal",userid);
+        const person = await Donaters.findOne({ where: { userId: userid }, 
+             include:[{model: PersonalInformation,as:'donaterPersonal'}/*,{model:MedicalInformation,as:'donaterMedical'}*/]
+        })
+        
+            
         return person
     }
     updateDonater = async (data) => {
@@ -53,74 +58,7 @@ class donatersDal {
         // }
         //res.json(updateDonater)
     }
-    // postMedical=async(medicalData)=>{  
-    //     // const {idmedical_info_donater,hight,weight,birthDate,
-    //     //     male_or_female,high_blood_pressure,blood_type,
-    //     //     diabetes,kidney_diseases, keidney_stones,
-    //     //     hospitalized,surgeries_in_the_past,
-    //     //     heart_or_lung_dysfunction,medication_regularly,
-    //     //     suffer_from_allergies,smoked_in_the_past,smoking,
-    //     //     family_with_diabetes,family_with_kidney_disease,
-    //     //     family_with_kidney_stones,born_before_37th_week,
-    //     //     famiy_with_clotting_problems,medical_info_donatercol,
-    //     //     medical_info_donaterscol}= req.body;
-
-
-
-    //      //update the pairs table
-    //     const MedicalInformation2=await MedicalInformation.create(medicalData)
-    //     return MedicalInformation2;
-    //     //router.post("/author/:id/update", author_controller.author_update_post);
-
-    // }
-
-    // postPersonal = async(personalData)=>{  
-    //     //console.log(req.body);
-    //         // const{idpersonal_info_donater,city,
-    //         //       street,num_street,country,email,phone_number,
-    //         //       sell_phone,preferred_landuage}=req.body;
-    //         //const personal= req.body;
-    //         // const PersonalInformation = await PersonalInformation.create({idpersonal_info_donater,city,
-    //         //     street,num_street,country,email,phone_number,
-    //         //     sell_phone,preferred_landuage});
-    //         //        console.log(PersonalInformation);
-
-
-
-    //          //update the pairs table
-
-    //         const personalInformation = await PersonalInformation.create(personalData)
-
-    //         //checkPair()
-    //         return personalInformation;
-    //         //router.post("/author/:id/update", author_controller.author_update_post);
-    //     }
-    //   // checkPair =()=>{
-    //   //   NeedDonation.
-    //   // }         
-    //     //router.post("/author/:id/update", author_controller.author_update_post);
-    // }
-
-    // @desc Create new note
-    // @route POST /notes
-    // @access Private
-    ///////
-    // const createNewNote = async (req, res) => {
-    //     const { title, contents } = req.body
-    //     // Confirm data
-    //     if (!title) {
-    //     return res.status(400).json({ message: 'All fields are required'
-    //     })
-    //     }
-    //     const donate = await Donaters.create({ title, contents })
-    //     if (donate) { // Created
-    //     return res.status(201).json({ message: 'New note created' })
-    //     } else {
-    //     return res.status(400).json({ message: 'Invalid note data
-    //     received' })
-    //     }
-    //     }
-    // }
+   
 }
 const donaterDataAcessor = new donatersDal();
 module.exports = donaterDataAcessor
