@@ -23,8 +23,8 @@ db.medical_info_needsdonations=require('./medical_info_needsdonations')
 applyExtraSetup();
 console.log("ok dbbbbbbbbbbb");
 //  {force:  true}
-db.sequelize.sync({alter: true},{force:  false})//force:false
-//,{force:  true}{alter: true},
+db.sequelize.sync({force:  false})//force:false
+// {alter: true},
 .then(() => {
 console.log('yes re-sync done!')
 })

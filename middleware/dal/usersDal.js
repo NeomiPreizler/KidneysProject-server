@@ -8,10 +8,7 @@ const User = db.users;
 
 
 class usersDal {
-    updateRole=async(Role,user_Id)=>{
-            return User.update({role:Role},{where:{userId: user_Id }});
 
-    }
     foundUser = async (username) => {
         return await User.findOne({ where: {  userName:username } })
     }
@@ -22,7 +19,6 @@ class usersDal {
         const emails= await User.findAll({attributes:['email']});
         return emails;
     }
-    
 
 }
 

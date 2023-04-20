@@ -20,9 +20,9 @@ const Users = sequelize.define("users", {
         type:DataTypes.STRING,
         },
     role:{
-        allowNull:true,
-        type:DataTypes.ENUM('DONATER','NEEDSDONATION', 'ADMIN'),
-        
+        allowNull:false,
+        type:DataTypes.ENUM('USER', 'ADMIN'),
+        defaultValue:'USER'
         },
 
     // donater:{

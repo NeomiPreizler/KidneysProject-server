@@ -30,16 +30,15 @@ class AuthenticationController {
 
         const userInfo = {
             id: foundUser.userId, email: foundUser.email, password: foundUser.password,
-            role: foundUser.role, userName: foundUser.userName
+            roles: foundUser.roles, userName: foundUser.userName
         }
 
         const accessToken = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET)
 
 
-    
-            console.log(foundUser.id);
-        // res.json({ accessToken: accessToken, userId: foundUser.userId })
-        res.json({ accessToken: accessToken, user: foundUser })
+        const userDetails=
+       console.log(foundUser.id); 
+        res.json({ accessToken: accessToken, userId: foundUser.userId })
 
     }
 

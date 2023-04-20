@@ -1,11 +1,7 @@
 const sendEmail=require('../utils/email')
 const userDal=require('../dal/usersDal')
-
 class UserController{
-  // updateRole=async(Role,user_Id)=>{
-  //   const role= await userDal.updateRole({ Role ,user_Id});
-  //   return role;
-  // }
+     
      // פונקציה תעבוד כל חודש
    SendingReminderEmailToUsers=async()=>{
     const emails=await userDal.findAllUsersEmail();

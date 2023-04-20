@@ -3,7 +3,6 @@ const medicalInfoDonatersDal = require('../dal/medicalInfoDonatersDal');
 const personalInfoDonatersDal = require('../dal/personalInfoDonatersDal');
 const needDonationDal = require('../dal/needDonationDal')
 const pairDal = require('../dal/pairsDal');
-const userDal = require('../dal/usersDal');
 const mail = require('../utils/email');
 const userController = require('./userController');
 const { loadavg } = require('os');
@@ -27,8 +26,6 @@ class DonaterController {
     }
     postDonatersDetails = async (body) => {
         console.log(body, "body");
-        const { role } = body
-        console.log(role, "roleeeeeeeeee");
         const { id, userId, email, first_name, last_name, id_pair,
 
             idmedical_info_donater, hight, weight, birthDate,
@@ -45,9 +42,6 @@ class DonaterController {
             cell_phone, preferred_language } = body;
         console.log("crasy number", phone_number);
         console.log("this is for noimi", idmedical_info_donater);
-
-        userDal.updateRole(role, userId);
-
         let donaterInfo = await donaterDal.postDonater({ id, userId, first_name, last_name, email, id_pair });
         // if (donaterInfo) { // Created
         //     res.status(201).json({ message: 'New donater created' })
@@ -96,7 +90,7 @@ class DonaterController {
 
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
         // console.log("for Sarale",req.idmedical_info_donater)
-        console.log("also for sarale", req.body.idpersonal_info_donater);
+        console.log("also for sarale",req.body.idpersonal_info_donater);
         if (idsPairOfMyPair) {
             if (idsPairOfMyPair == id) {
                 await this.postDonatersDetails(req.body);
@@ -143,7 +137,7 @@ class DonaterController {
     }
 
     updateDonater = async (req, res) => {
-        const { userId, id, first_name, last_name, avaliable, email,
+        const { id, last_name, avaliable, email,
 
             idmedical_info_donater, hight, weight,
             high_blood_pressure,
@@ -156,13 +150,12 @@ class DonaterController {
 
             idpersonal_info_donater, city, street, num_street, country,
             phone_number, cell_phone, preferred_language } = req.body;
-        console.log(userId, "userIddddddddd in controller");
-        var updateDonater = await donaterDal.updateDonater(userId ,{ id, first_name, last_name, avaliable, email });
-        console.log(updateDonater,"updateDonater")
-console.log(hight,"highthighthight in controller");
-        var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater(
 
-            idmedical_info_donater, {hight, weight,
+        var updateDonater = await donaterDal.updateDonater({ id, last_name, avaliable, email });
+        console.log(updateDonater)
+
+        var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater({
+            idmedical_info_donater, hight, weight,
             high_blood_pressure,
             diabetes, kidney_diseases, kidney_stones,
             heart_or_lung_dysfunction,
@@ -174,18 +167,12 @@ console.log(hight,"highthighthight in controller");
 
         console.log(updatedonaterMedical);
 
-        var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(
-            idpersonal_info_donater,{ city, street, num_street, country,
+        var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal({
+            idpersonal_info_donater, city, street, num_street, country,
             phone_number, cell_phone, preferred_language
         });
+
         console.log(updatedonatePersonal)
-
-        if (!updatedonatePersonal) {
-            return res.status(400).json({ message: 'donaterPersonal not found' })
-        }
-        res.json(updatedonatePersonal)
-
-
     }
 }
 

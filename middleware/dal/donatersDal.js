@@ -41,19 +41,17 @@ class donatersDal {
     getByUserId = async (userid) => {
      console.log("useriddddd dal",userid);
         const person = await Donaters.findOne({ where: { userId: userid }, 
-            include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation ,as:'donaterMedical',required:false }]
-           
+          include:[{model: PersonalInformation, as:"donaterPersonal"},{model:MedicalInformation,as:'donatersMedical'}],
+        //   include:[{model:MedicalInformation,as:'donatersMedical'}]
         })
-        // , as: 'donaterPersonal', as: 'donaterMedical'
         return person
     }
-    updateDonater = async (userid,data) => {
-        const { id,first_name, last_name, avaliable, email } = data
-        console.log(userid)
+    updateDonater = async (data) => {
+        const { id, avaliable, email } = data
+        //console.log(req.body)
         //const {id,avaliable,email}=req.body
-        console.log("updateDonater in donater dalllllllll");
-        return await Donaters.update({userid, id,first_name, last_name, avaliable, email }, { where: { userId: userid } });
-        
+        const updateDonater = await Donaters.update({ avaliable, email }, { where: { id: id } })
+        console.log(updateDonater);
         // if (!updateDonater) {
         //     return res.status(400).json({ message: 'Donater not found' })
         // }
