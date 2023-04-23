@@ -6,10 +6,13 @@ router.use(verifyJWT)
 router.route('/')
     .get(needDonationController.getAllNeedDonation)
     .post(needDonationController.postNeedsDonation)
-    .put(needDonationController.updateNeedsDonater)//צריך לכתוב את הפונקציה 
+//   .put(needDonationController.updateNeedsDonater)//צריך לכתוב את הפונקציה 
     .delete(needDonationController.deleteOne)
 
-router.get( '/:userId', needDonationController.getByEmail)
+router.route('/:userId')
+    .get(needDonationController.getByUserId)
+
+
 module.exports = router
 
 

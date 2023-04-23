@@ -1,31 +1,36 @@
-
 const needDonationDal=require('../dal/needDonationDal')
 const medicalNeedDonationDal=require('../dal/medicalInfoNeedsdonationsDal')
 const personalNeedDonationDal=require('../dal/personalInfoNeedsdonationsDal')
 const pairDal=require('../dal/pairsDal')
 const donaterDal=require('../dal/donatersDal')
+const userDal = require('../dal/usersDal');
+const mail = require('../utils/email');
 const { donaters } = require('../models')
+
 class NeedDonationController{
     getAllNeedDonation=async(req, res)=>{
-        var NeedDonation=await NeedDonationDal.getAllNeedDonation();
-        if (!NeedDonation?.length) {
+        var needDonation=await needDonationDal.getAllNeedDonation();
+        if (!needDonation?.length) {
             return res.status(400).json({ message: 'No NeedDonation found' })
             }
             // console.log(donaters);
-            res.json(NeedDonation)
+            res.json(needDonation)
             
     } 
-    updateNeedsDonater=async(req,res)=>{
-        
-    }
-    
-    postNeedDonationDetails=async(req,res)=>{
-      const{id,userId, first_name, last_name, avaliable,has_pair,id_pair,
+    getByUserId = async (req, res) => {
+        const person = await donaterDal.getByUserId(req.params.userId)
+        console.log(person)
+        res.send(person)
 
-            idmedical_info_needsdonations,blood_type,hight,
+    }
+   
+    postNeedDonationDetails=async(req,res)=>{
+      const{id,userId,email, first_name, last_name, avaliable,has_pair,id_pair,
+
+            idmedical_info_needsdonations,blood_type,height,
             weight,birthDate,gender,cause_of_kidney_failure,
             dialysis_type,dialysis_start_date,
-            kidney_transplant_in_the_past,antibodies,heart_rate_check,
+            past_kidney_donation,antibodies,heart_rate_check,
             psychosocial_assessment,surgical_procedure,
 
             idpersonal_info_needsdonations,address,city,cell_phone,
@@ -33,14 +38,14 @@ class NeedDonationController{
 
         }=req.body;
 
-        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id,userId, first_name, last_name,avaliable,has_pair,id_pair});
+        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id,userId,email, first_name, last_name,avaliable,has_pair,id_pair});
         console.log(needsDonationInfo);
         
         var needsDonationMedical=await medicalNeedDonationDal.postMedical({ 
-            idmedical_info_needsdonations,blood_type,hight,
+            idmedical_info_needsdonations,blood_type,height,
             weight,birthDate,gender,cause_of_kidney_failure,
             dialysis_type,dialysis_start_date,
-            kidney_transplant_in_the_past,antibodies,heart_rate_check,
+            past_kidney_donation,antibodies,heart_rate_check,
             psychosocial_assessment,surgical_procedure})
 
         console.log(needsDonationMedical);
@@ -105,31 +110,29 @@ class NeedDonationController{
             //     res.json(`${id} not deleted`)
 
     }
-    getByEmail = async (req, res) => {
-        const person = await donaterDal.getByEmail(req.params.email)
-        console.log(person)
-        res.send(person)
-
-    }
+    
+  
+   
     updateNeedsDonation = async (req, res) => {
-        const{id, last_name,avaliable, email,
+        const{userId,id, last_name,avaliable, email,has_pair,id_pair,
 
-            idmedical_info_needsdonations,hight,
+            idmedical_info_needsdonations,height,
             weight,antibodies,
 
             idpersonal_info_needsdonations,address,city,cell_phone,
-            phone,fax_number,which_hospital_transplat
+            phone_number,country,preferred_language
 
         }=req.body;
 
-        var updateNeedsDonation = await NeedDonationDal.updateNeedsDonation(id,last_name,avaliable,email);
+        var updateNeedsDonation = await needDonationDal.updateNeedsDonation(userId,{id,last_name,avaliable,email});
         console.log(updateNeedsDonation)
 
-        var updateNeedsDonation = await Medical_info_needsdonations.updateMedicalNeedsDonater(idmedical_info_needsdonations,hight,weight,antibodies);
-        console.log(updateNeedsDonation);
+        var updateNeedsMedical = await medicalNeedDonationDal.updateMedicalNeedsDonater(idmedical_info_needsdonations,{height,weight,antibodies});
+        console.log(updateNeedsMedical);
 
-        // var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(donorPersonol);
-        // console.log(updatedonatePersonal)
+        var updatedNeedsPersonal = await personalNeedDonationDal.updatePersonalNeedsDonation(idpersonal_info_needsdonations,{address,city,cell_phone,
+            phone_number,country,preferred_language});
+        console.log(updatedNeedsPersonal)
     }
     }
 

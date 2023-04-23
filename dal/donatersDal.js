@@ -19,6 +19,7 @@ class donatersDal {
 
     }
     getAllDonaters = async () => {
+        console.log("getAllDonatersssssssssssss");
         const donaters = await Donaters.findAll({})
         return donaters;
     }
@@ -48,7 +49,7 @@ class donatersDal {
         return person
     }
     updateDonater = async (userid,data) => {
-        const { id,first_name, last_name, avaliable, email } = data
+        const { id,first_name, last_name, email } = data
         console.log(userid)
         //const {id,avaliable,email}=req.body
         console.log("updateDonater in donater dalllllllll");

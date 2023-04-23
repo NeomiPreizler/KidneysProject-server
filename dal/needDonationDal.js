@@ -1,7 +1,9 @@
 const { DATEONLY } = require('sequelize');
 const { donaters } = require('../models/index');
 const db = require('../models/index')
-const NeedDonations = db.needsDonations//לא לשכוח לשנות שם
+const NeedDonations = db.needsDonations;//לא לשכוח לשנות שם
+const PersonalNeeds=db.personal_info_needsdonations;
+const MedicalNeeds=db.medical_info_needsdonations;
 const Donaters = db.donaters
 class needDonationDal {
     constructor() {
@@ -21,7 +23,7 @@ class needDonationDal {
     }
     postNeedsDonation = async (body) => {
         
-        const needDonationInfo = await NeedDonations.create(body)
+       const needDonationInfo = await NeedDonations.create(body)
        return needDonationInfo;
     }
 
@@ -42,19 +44,19 @@ class needDonationDal {
         // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
     }
 
-
-
-
     //  Donaters.findAll({})
-    getByEmail = async (emailIGot) => {
-        const person = await NeedDonations.findOne({ where: { email: emailIGot } })
+    getByUserId = async (userid) => {
+        const person = await NeedDonations.findOne({ where: { userId: userid }, 
+        include:[{model:PersonalNeeds,as:'needsPersonal'},{model:MedicalNeeds,as:'needsMedical',required:false}]
+        })
+        
         return person
     }
 
-    updateNeedsDonation = async (req, res) => {
-        const { id, last_name, avaliable, email } = req.body
-        const updatedNeed = await NeedDonations.update({ last_name, avaliable, email }, { where: { id: id } })
-        res.send(updatedNeed)
+    updateNeedsDonation = async (userid,data) => {
+        const { id, last_name, avaliable, email } = data
+        return await NeedDonations.update({userid,id, last_name, avaliable, email }, { where: { userId: userid } })
+        
     }
     updateNoPair = async (id) => {
         return NeedDonations.update({ has_pair: false }, { where: { id: id } })

@@ -13,9 +13,10 @@ class DonaterController {
     getAllDonaters = async (req, res) => {
         // userController.SendingReminderEmailToUsers()
         var donaters = await donaterDal.getAllDonaters();
-        if (!donaters?.length) {
-            return res.status(400).json({ message: 'No donaters found' })
-        }
+        console.log(donaters,"donaterssssss");
+        // if (!donaters?.length) {
+        //     return res.status(400).json({ message: 'No donaters found' })
+        // }
         res.json(donaters)
     }
     getByUserId = async (req, res) => {
@@ -157,9 +158,9 @@ class DonaterController {
             idpersonal_info_donater, city, street, num_street, country,
             phone_number, cell_phone, preferred_language } = req.body;
         console.log(userId, "userIddddddddd in controller");
-        var updateDonater = await donaterDal.updateDonater(userId ,{ id, first_name, last_name, avaliable, email });
+        var updateDonater = await donaterDal.updateDonater(userId ,{ id, first_name, last_name, email });
         console.log(updateDonater,"updateDonater")
-console.log(hight,"highthighthight in controller");
+        console.log(hight,"highthighthight in controller");
         var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater(
 
             idmedical_info_donater, {hight, weight,

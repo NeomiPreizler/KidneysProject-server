@@ -11,7 +11,10 @@ class personalInfoNeedsdonationsDal{
         const personalInformation = await PersonalNeedsDonation.create(body);
         return personalInformation;
     }  
-    updateNeedsDonater= async()=>{}
+    updatePersonalNeedsDonation= async(userid,body)=>{
+       const {address,city,cell_phone,phone_number,country,preferred_language}=body;
+       return await PersonalNeedsDonation.update({address,city,cell_phone,phone_number,country,preferred_language},{where: {idpersonal_info_needsdonations:userid}})
+    }
 }
 const personalInformationDataAcssor=new personalInfoNeedsdonationsDal()
 module.exports = personalInformationDataAcssor

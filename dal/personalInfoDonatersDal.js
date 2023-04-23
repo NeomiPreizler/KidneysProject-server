@@ -17,13 +17,13 @@ class personalInfoDonatersDal {
     deleteDonater = async (id_donater) => {
         return await PersonalInfoDonaters.destroy({ where: { idpersonal_info_donater: id_donater } })
     }
-    updateDonaterPersonal = async (body) => {
-        const { userId, city, street, num_street, country,
+    updateDonaterPersonal = async (userid,body) => {
+        const { city, street, num_street, country,
             phone_number, cell_phone, preferred_language } = body;
         const updatedonaterPersonal = await PersonalInformationDonater.update({
             city, street, num_street, country,
             phone_number, cell_phone, preferred_language
-        }, { where: { idpersonal_info_donater: userId } })
+        }, { where: { idpersonal_info_donater: userid } })
 
         return updatedonaterPersonal;
 

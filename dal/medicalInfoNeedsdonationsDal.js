@@ -9,6 +9,10 @@ class  medicalInfoNeedsdonationsDal{
         const medicalInformation=await MedicalInformation.create(body);
         return medicalInformation;
     }
+    updateMedicalNeedsDonater=async(userid,body)=>{
+        const {height,weight,antibodies}=body;
+        return await MedicalInformation.update({height,weight,antibodies},{where:{idmedical_info_needsdonations:userid}});
+    }
 }
 const medicalInformationDataAccessor=new medicalInfoNeedsdonationsDal()
 module.exports = medicalInformationDataAccessor

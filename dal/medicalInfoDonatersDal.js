@@ -8,32 +8,15 @@ class medicalInfoDonatersDal {
 
     postDonater = async (body) => {
         console.log("medical body", body)
-        // const {idmedical_info_donater, hight, weight, birthDate,
-        //     male_or_female, high_blood_pressure, blood_type,
-        //     diabetes, kidney_diseases, keidney_stones,
-        //     hospitalized, surgeries_in_the_past,
-        //     heart_or_lung_dysfunction, medication_regularly,
-        //     suffer_from_allergies, smoked_in_the_past, smoking,
-        //     family_with_diabetes, family_with_kidney_disease,
-        //     family_with_kidney_stones, born_before_37th_week,
-        //     famiy_with_clotting_problems}=req.body;
-
-        // const medical_details = await MedicalInfoDonater.create({idmedical_info_donater,
-        //     hight, weight, birthDate,
-        //     male_or_female, high_blood_pressure, blood_type,
-        //     diabetes, kidney_diseases, keidney_stones,
-        //     hospitalized, surgeries_in_the_past,
-        //     heart_or_lung_dysfunction, medication_regularly,
-        //     suffer_from_allergies, smoked_in_the_past, smoking,
-        //     family_with_diabetes, family_with_kidney_disease,
-        //     family_with_kidney_stones, born_before_37th_week,
-        //     famiy_with_clotting_problems})
+        
         const medical_details = await MedicalInfoDonater.create(body);
         return (medical_details);
     }
+
     deleteDonater = async (id_donater) => {
         return await MedicalInfoDonater.destroy({ where: { idmedical_info_donater: id_donater } });
     }
+    
     updateMedicalDonater = async (userid, body) => {
         const { hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
