@@ -47,12 +47,12 @@ class AuthenticationController {
         const { userName, email, password, role } = req.body;
         console.log(req.body.email)
         // ValidationError()
-
+console.log(userName,"userNameuserName");
         console.log(`${userName}/n/n/n/n`);
         console.log(`${password}/n/n/n/n`);
 
         if (!email || !userName || !password) {// Confirm data
-            return res.status(400).json({ message: 'All fields are required' })
+            return res.status(400).json({ message:'All fields are required'})
         }
 
         const duplicate = await usersDal.foundUser(userName, email);

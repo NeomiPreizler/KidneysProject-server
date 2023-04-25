@@ -18,6 +18,7 @@ class NeedDonationController{
             
     } 
     getByUserId = async (req, res) => {
+        console.log("in server in getByUserId");
         const person = await donaterDal.getByUserId(req.params.userId)
         console.log(person)
         res.send(person)
@@ -25,6 +26,7 @@ class NeedDonationController{
     }
    
     postNeedDonationDetails=async(req,res)=>{
+      const { role } = body
       const{id,userId,email, first_name, last_name, avaliable,has_pair,id_pair,
 
             idmedical_info_needsdonations,blood_type,height,
@@ -38,8 +40,10 @@ class NeedDonationController{
 
         }=req.body;
 
-        var needsDonationInfo = await needDonationDal.postNeedsDonation({ id,userId,email, first_name, last_name,avaliable,has_pair,id_pair});
-        console.log(needsDonationInfo);
+        userDal.updateRole(role, userId);
+
+        var needsDonation = await needDonationDal.postNeedsDonation({ id,userId,email, first_name, last_name,avaliable,has_pair,id_pair});
+        console.log(needsDonation);
         
         var needsDonationMedical=await medicalNeedDonationDal.postMedical({ 
             idmedical_info_needsdonations,blood_type,height,
@@ -71,6 +75,7 @@ class NeedDonationController{
   
     }
     postNeedsDonation=async(req,res)=>{
+    console.log("enterd postDonation xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       const {id,id_pair}=req.body;
       let idsPairOfMyPair=await donaterDal.findPair(id_pair)
       if (idsPairOfMyPair){

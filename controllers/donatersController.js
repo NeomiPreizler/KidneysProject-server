@@ -144,9 +144,13 @@ class DonaterController {
     }
 
     updateDonater = async (req, res) => {
-        const { userId, id, first_name, last_name, avaliable, email,
+        const {userId} =req.body;
+        const idmedical_info_donater=userId;
+        const idpersonal_info_donater=userId;
+        console.log(idmedical_info_donater,"idmedical_info_donater");
+        const { id, first_name, last_name, email,
 
-            idmedical_info_donater, hight, weight,
+           height, weight,
             high_blood_pressure,
             diabetes, kidney_diseases, kidney_stones,
             heart_or_lung_dysfunction,
@@ -155,15 +159,16 @@ class DonaterController {
             family_with_kidney_stones,
             famiy_with_clotting_problems,
 
-            idpersonal_info_donater, city, street, num_street, country,
+             city, address, country,
             phone_number, cell_phone, preferred_language } = req.body;
         console.log(userId, "userIddddddddd in controller");
         var updateDonater = await donaterDal.updateDonater(userId ,{ id, first_name, last_name, email });
         console.log(updateDonater,"updateDonater")
-        console.log(hight,"highthighthight in controller");
+        console.log(height,"highthighthight in controller");
+
         var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater(
 
-            idmedical_info_donater, {hight, weight,
+            idmedical_info_donater, {height, weight,
             high_blood_pressure,
             diabetes, kidney_diseases, kidney_stones,
             heart_or_lung_dysfunction,
@@ -173,13 +178,13 @@ class DonaterController {
             famiy_with_clotting_problems
         });
 
-        console.log(updatedonaterMedical);
+        console.log(" after updatedonaterMedical");
 
         var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(
-            idpersonal_info_donater,{ city, street, num_street, country,
+            idpersonal_info_donater,{ city,address, country,
             phone_number, cell_phone, preferred_language
         });
-        console.log(updatedonatePersonal)
+        console.log(updatedonatePersonal,"after updatedonatePersonal")
 
         if (!updatedonatePersonal) {
             return res.status(400).json({ message: 'donaterPersonal not found' })

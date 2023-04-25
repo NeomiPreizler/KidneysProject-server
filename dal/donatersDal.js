@@ -53,7 +53,7 @@ class donatersDal {
         console.log(userid)
         //const {id,avaliable,email}=req.body
         console.log("updateDonater in donater dalllllllll");
-        return await Donaters.update({userid, id,first_name, last_name, avaliable, email }, { where: { userId: userid } });
+        return await Donaters.update({userid, id,first_name, last_name, email }, { where: { userId: userid } });
         
         // if (!updateDonater) {
         //     return res.status(400).json({ message: 'Donater not found' })

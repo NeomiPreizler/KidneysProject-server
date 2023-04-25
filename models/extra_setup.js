@@ -8,9 +8,9 @@ const applyExtraSetup = () => {
     const { links, circles, pairs,donaters,medical_info_donaters,personal_info_donaters,needs_donations, personal_info_needsdonations,medical_info_needsdonations,users} = sequelize.models;
     donaters.belongsTo(users,{foreignKey:"userId",as:"userDonater"})
     needs_donations.belongsTo(users,{foreignKey:"userId",as:"userNeedsDonation"})
-    // medical_info_donaters.belongsTo(donaters, { foreignKey: "idmedical_info_donater", as: "donatersMedical" });
+    //medical_info_donaters.belongsTo(donaters, { foreignKey: "idmedical_info_donater", as: "donatersMedical" });
     donaters.belongsTo(medical_info_donaters,{foreignKey: "userId", as: "donaterMedical" });
-    // personal_info_donaters.belongsTo(donaters, { foreignKey: "idpersonal_info_donater", as: "donaterPersonal" });
+    //personal_info_donaters.belongsTo(donaters, { foreignKey: "idpersonal_info_donater", as: "donaterPersonal" });
     donaters.belongsTo(personal_info_donaters,{foreignKey:"userId", as:"donaterPersonal"});
    
 

@@ -27,6 +27,7 @@ class medicalInfoDonatersDal {
             family_with_diabetes, born_before_37th_week, CT_examination,
             cheast_examination, urine_Test, psychological_evaluation } = body;
         console.log("updateMedicalDonaterrrrrrrrrr", hight);
+        console.log(userid,"useriddddddddddd");
         const updatemedicalDonater = await MedicalInfoDonater.update({
             hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
@@ -37,6 +38,7 @@ class medicalInfoDonatersDal {
             family_with_diabetes, born_before_37th_week, CT_examination,
             cheast_examination, urine_Test, psychological_evaluation,
         }, { where: { idmedical_info_donater: userid } })
+        console.log("updatemedicalDonater in dal",updatemedicalDonater);
         return updatemedicalDonater;
         // if (!updatemedicalDonater) {
         //     return res.status(400).json({ message: 'medicalDonater not found' })
