@@ -27,16 +27,12 @@ class DonaterController {
         res.send(person)
     }
     postDonatersDetails = async (body) => {
-        console.log(body, "body in funtion");
+        console.log(body, "body");
         const { role } = body
-        const {userId}=body
-        const idmedical_info_donater=userId;
-        const idpersonal_info_donater=userId;
+        console.log(role, "roleeeeeeeeee");
+        const { id, userId, email, first_name, last_name, id_pair,
 
-        console.log(role, "roleeeeeeeenee");
-        const { id, email, first_name, last_name, id_pair,
-
-             height, weight, birthDate,
+            idmedical_info_donater, hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
@@ -45,7 +41,7 @@ class DonaterController {
             family_with_diabetes, born_before_37th_week, CT_examination,
             cheast_examination, urine_Test, psychological_evaluation,
 
-             city,
+            idpersonal_info_donater, city,
             address, country, phone_number,
             cell_phone, preferred_language } = body;
         console.log("crasy number", phone_number);
@@ -63,7 +59,7 @@ class DonaterController {
 
 
         let donaterMedical = await medicalInfoDonatersDal.postDonater({
-            idmedical_info_donater, height, weight, birthDate,
+            idmedical_info_donater, hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
@@ -94,16 +90,14 @@ class DonaterController {
     }
 
     postDonater = async (req, res) => {
-        
-     console.log(req.body,"req.body");
+        // console.log(req.body.values,"req.body");
 
         const { id, id_pair } = req.body;
         // const { } = req.body;
-const {role}=req.body
-console.log(role,"rolerolerole");
+
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
-        console.log("for Sarale",id)
-        console.log("also for sarale",id_pair);
+        // console.log("for Sarale",req.idmedical_info_donater)
+        console.log("also for sarale", req.body.idpersonal_info_donater);
         if (idsPairOfMyPair) {
             if (idsPairOfMyPair == id) {
                 await this.postDonatersDetails(req.body);
@@ -150,16 +144,13 @@ console.log(role,"rolerolerole");
     }
 
     updateDonater = async (req, res) => {
-        console.log("req.body", req.body)
-        //const {userId} =req.body;
-        //
-        const userId = 1
+        const {userId} =req.body;
         const idmedical_info_donater=userId;
         const idpersonal_info_donater=userId;
         console.log(idmedical_info_donater,"idmedical_info_donater");
         const { id, first_name, last_name, email,
 
-            height, weight,
+           height, weight,
             high_blood_pressure,
             diabetes, kidney_diseases, kidney_stones,
             heart_or_lung_dysfunction,
@@ -187,7 +178,7 @@ console.log(role,"rolerolerole");
             famiy_with_clotting_problems
         });
 
-        console.log(" after updatedonaterMedical",updatedonaterMedical);
+        console.log(" after updatedonaterMedical");
 
         var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(
             idpersonal_info_donater,{ city,address, country,

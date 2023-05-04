@@ -13,25 +13,25 @@ const NeedsDonations = sequelize.define(
         },
         email: {
             type: DataTypes.STRING,
-            //allowNull: false,
+            allowNull: false,
         },
         first_name: {
             type: DataTypes.STRING,
-            //allowNull: false,
+            allowNull: false,
         },
         last_name: {
             type: DataTypes.STRING,
-            //allowNull: false,
+            allowNull: false,
         },
 
         avaliable: {
             type: DataTypes.TINYINT,
-            //allowNull: false,
+            allowNull: false,
             defaultValue: 0,
         },
         has_pair: {
             type: DataTypes.TINYINT,
-            //allowNull: false,
+            allowNull: false,
             defaultValue: 0,
         },
 

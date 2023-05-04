@@ -14,7 +14,7 @@ const PersonalInfoDonaters = sequelize.define(
         },
         address: {
             type: DataTypes.STRING,
-           // allowNull: false,
+            allowNull: false,
         },
         country: {
             type: DataTypes.STRING,

@@ -10,19 +10,19 @@ const PersonalInfoNeedsdonations = sequelize.define(
         },
         address: {
             type: DataTypes.STRING,
-            //allowNull: false,
+            allowNull: false,
         },
         city: {
             type: DataTypes.STRING,
-            //allowNull: false,
+            allowNull: false,
         },
         cell_phone: {
             type: DataTypes.INTEGER,
-            //allowNull: false,
+            allowNull: false,
         },
         phone_number: {
             type: DataTypes.INTEGER,
-            //allowNull: true,
+            allowNull: true,
         },
         country: {
             type: DataTypes.STRING,

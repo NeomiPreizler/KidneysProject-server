@@ -1,5 +1,4 @@
 
-const { log } = require('console');
 const { DATEONLY } = require('sequelize');
 const { donaters } = require('../models/index');
 const db = require('../models/index');
@@ -33,22 +32,19 @@ class donatersDal {
        // res.send(donater_details)
     }
     findPair=async(idDonater)=>{
-        // return Donaters.findOne({
-        //     attributes:['id_pair'],
-        //     where:{
-        //         id:idDonater,
-        //     }
-        // })
-        return false
+        return Donaters.findOne({
+            attributes:['id_pair'],
+            where:{
+                id:idDonater,
+            }
+        })
     }
     getByUserId = async (userid) => {
-     console.log("useriddddd dal needs",userid);
-        const person = await Donaters.findOne({ where: { userId: userid }
-        , 
+     console.log("useriddddd dal",userid);
+        const person = await Donaters.findOne({ where: { userId: userid }, 
             include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation ,as:'donaterMedical',required:false }]
            
         })
-        console.log("person need",person);
         // , as: 'donaterPersonal', as: 'donaterMedical'
         return person
     }

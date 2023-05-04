@@ -18,7 +18,7 @@ class medicalInfoDonatersDal {
     }
     
     updateMedicalDonater = async (userid, body) => {
-        const { height, weight, birthDate,
+        const { hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
@@ -26,10 +26,10 @@ class medicalInfoDonatersDal {
             suffer_from_allergies, smoked_in_the_past, smoking,
             family_with_diabetes, born_before_37th_week, CT_examination,
             cheast_examination, urine_Test, psychological_evaluation } = body;
-        console.log("updateMedicalDonaterrrrrrrrrr", height);
+        console.log("updateMedicalDonaterrrrrrrrrr", hight);
         console.log(userid,"useriddddddddddd");
         const updatemedicalDonater = await MedicalInfoDonater.update({
-            height, weight, birthDate,
+            hight, weight, birthDate,
             gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,

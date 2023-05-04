@@ -62,7 +62,7 @@ console.log(userName,"userNameuserName");
         console.log("duplicate", duplicate);
         const hashedPwd = await bcrypt.hash(password, 10);
 
-        const userObject = { email, userName, password: hashedPwd ,role};
+        const userObject = { email, userName, password: hashedPwd };
 
         const user = await usersDal.createUser(userObject);
         if (user) { // Created

@@ -6,7 +6,7 @@ const Medical_info_donaters = sequelize.define(
         allowNull: false,
         primaryKey: true,
     },
-    height: {
+    hight: {
         type: DataTypes.STRING,
         // allowNull: false,
     },
