@@ -7,13 +7,7 @@ const PersonalNeeds = db.personal_info_needsdonations;
 const MedicalNeeds = db.medical_info_needsdonations;
 const Donaters = db.donaters
 class needDonationDal {
-    // constructor() {
-    //     this.init();
-    // }
-    // init = async () => {
-    //     this.db = require('../models/index')
-    //     this.NeedDonation = db.needsDonations//לא לשכוח לשנות שם
-    // }
+  
     deleteNeedsDonater = async (id) => {
         return await Donaters.destroy({ where: { idpersonal_info_donater: id } })
 

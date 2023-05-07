@@ -24,7 +24,7 @@ applyExtraSetup();
 console.log("ok dbbbbbbbbbbb");
 //  {force:  true}
 db.sequelize.sync({alter: true},{force:  false})//force:false
-//,{force:  true}{alter: true},
+//,{force:  true}
 .then(() => {
 console.log('yes re-sync done!')
 })

@@ -25,7 +25,7 @@ class donatersDal {
         return donaters;
     }
     postDonater = async (body) => {
-    console.log(body);
+    //console.log(body);
        // const {id, first_name, last_name, email, id_pair}=req.body
         const donater_details = await Donaters.create(body)
             //{id, first_name, last_name, email, id_pair})
@@ -48,7 +48,7 @@ class donatersDal {
             include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation ,as:'donaterMedical',required:false }]
            
         })
-        console.log("person need",person);
+        //console.log("person need",person);
         // , as: 'donaterPersonal', as: 'donaterMedical'
         return person
     }

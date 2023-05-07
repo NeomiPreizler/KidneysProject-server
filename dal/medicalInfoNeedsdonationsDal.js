@@ -6,12 +6,13 @@ class  medicalInfoNeedsdonationsDal{
         return await MedicalInformation.destroy({ where: {idmedical_info_donater:id}});
       }
     postMedical = async(body)=>{
+        console.log(body,"bodymdical")
         const medicalInformation=await MedicalInformation.create(body);
         return medicalInformation;
     }
     updateMedicalNeedsDonater=async(userid,body)=>{
-        const {height,weight,antibodies}=body;
-        return await MedicalInformation.update({height,weight,antibodies},{where:{idmedical_info_needsdonations:userid}});
+       // const {height,weight,antibodies}=body;
+        return await MedicalInformation.update(body,{where:{idmedical_info_needsdonations:userid}});
     }
 }
 const medicalInformationDataAccessor=new medicalInfoNeedsdonationsDal()
