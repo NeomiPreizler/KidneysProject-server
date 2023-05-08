@@ -30,7 +30,7 @@ class AuthenticationController {
 
         const userInfo = {
             id: foundUser.userId, email: foundUser.email, password: foundUser.password,
-            role: foundUser.role, userName: foundUser.userName
+            role: foundUser.role, userName: foundUser.userName  
         }
 
         const accessToken = jwt.sign(userInfo, process.env.ACCESS_TOKEN_SECRET)

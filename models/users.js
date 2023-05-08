@@ -25,15 +25,6 @@ const Users = sequelize.define("users", {
         
         },
 
-    // donater:{
-    //     type:DataTypes.BOOLEAN,   
-    //     allowNull: false
-
-    // },
-    // needsDonation:{
-    //     type:DataTypes.BOOLEAN,
-    //     allowNull: false
-    // },
 },
     {
         timestamps: false,//כשיוצרים מודל אם לא כותבים את זה הוא מכניס אוטומטית עוד 2 שדות נוצר ב ועודכן ב

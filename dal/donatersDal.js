@@ -25,7 +25,7 @@ class donatersDal {
         return donaters;
     }
     postDonater = async (body) => {
-    console.log(body);
+    //console.log(body);
        // const {id, first_name, last_name, email, id_pair}=req.body
         const donater_details = await Donaters.create(body)
             //{id, first_name, last_name, email, id_pair})
@@ -42,13 +42,13 @@ class donatersDal {
         return false
     }
     getByUserId = async (userid) => {
-     console.log("useriddddd dal needs",userid);
+     console.log("useriddddd dal donater",userid);
         const person = await Donaters.findOne({ where: { userId: userid }
         , 
             include:[{model: PersonalInformation,as:'donaterPersonal'},{model:MedicalInformation ,as:'donaterMedical',required:false }]
            
         })
-        console.log("person need",person);
+       console.log("person ",person);
         // , as: 'donaterPersonal', as: 'donaterMedical'
         return person
     }

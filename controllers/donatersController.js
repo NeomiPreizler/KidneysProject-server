@@ -20,20 +20,20 @@ class DonaterController {
         res.json(donaters)
     }
     getByUserId = async (req, res) => {
-        console.log("useriddddddddd", req.params.userId);
-
-        const person = await donaterDal.getByUserId(req.params.userId)
-        console.log(person)
+        //console.log("useriddddddddd", req.params.userId);
+        const {id} = req.user
+        const person = await donaterDal.getByUserId(id)
+        //console.log(person)
         res.send(person)
     }
-    postDonatersDetails = async (body) => {
-        console.log(body, "body in funtion");
+    postDonatersDetails = async (body, userId) => {
+        //console.log(body, "body in funtion");
+
         const { role } = body
-        const {userId}=body
         const idmedical_info_donater=userId;
         const idpersonal_info_donater=userId;
 
-        console.log(role, "roleeeeeeeenee");
+        //console.log(role, "roleeeeeeeenee");
         const { id, email, first_name, last_name, id_pair,
 
              height, weight, birthDate,
@@ -61,7 +61,7 @@ class DonaterController {
         //     res.status(400).json({ message: 'Invalid donater data received' })
         // }
 
-
+            
         let donaterMedical = await medicalInfoDonatersDal.postDonater({
             idmedical_info_donater, height, weight, birthDate,
             gender, high_blood_pressure, blood_type,
@@ -94,19 +94,20 @@ class DonaterController {
     }
 
     postDonater = async (req, res) => {
-        
-     console.log(req.body,"req.body");
+    console.log("postDonater in the donatersController") 
+    const {id:userId}  =  req.user
+     //console.log(req.body,"req.body");
 
         const { id, id_pair } = req.body;
         // const { } = req.body;
-const {role}=req.body
-console.log(role,"rolerolerole");
+        const {role}=req.body
+        console.log(role,"rolerolerole");
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
         console.log("for Sarale",id)
         console.log("also for sarale",id_pair);
         if (idsPairOfMyPair) {
             if (idsPairOfMyPair == id) {
-                await this.postDonatersDetails(req.body);
+                await this.postDonatersDetails(req.body, userId);
                 pairDal.updateHasPair(id, id_pair);
                 pairDal.createNewPair(id, id_pair);
             }
@@ -114,7 +115,7 @@ console.log(role,"rolerolerole");
             // else { return res.send("the id of your pair is incorrect"); }
         }
         else {
-            await this.postDonatersDetails(req.body);
+            await this.postDonatersDetails(req.body, userId);
             return res.send("There is no pair for you in the system. You are not available in the system until a pair enters for you");
         }
 
@@ -150,10 +151,12 @@ console.log(role,"rolerolerole");
     }
 
     updateDonater = async (req, res) => {
-        console.log("req.body", req.body)
+        console.log("updateDonater in the donatersController") 
+
+        //console.log("req.body", req.body)
         //const {userId} =req.body;
         //
-        const userId = 1
+        const {id:userId}  =  req.user
         const idmedical_info_donater=userId;
         const idpersonal_info_donater=userId;
         console.log(idmedical_info_donater,"idmedical_info_donater");

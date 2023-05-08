@@ -32,7 +32,7 @@ class NeedDonationController {
         const idmedical_info_needsdonations = userId;
         console.log("body",body);
         console.log(idpersonal_info_needsdonations, "userid", idmedical_info_needsdonations);
-        const { id, email, first_name, last_name, avaliable, has_pair, id_pair,
+        const { id, email, first_name, last_name, id_pair,
 
             blood_type, height,
             weight, birthDate, gender, cause_of_kidney_failure,
@@ -43,7 +43,7 @@ class NeedDonationController {
             address, city, cell_phone,
             phone_number, country, preferred_language
 
-        } = body;
+        } = body.values;
 
         userDal.updateRole(role, userId);
 
@@ -129,7 +129,8 @@ class NeedDonationController {
 
 
     updateNeedsDonater = async (req, res) => {
-        const { userId, id, first_name, last_name, email, id_pair,
+        const {userId}=req.body;
+        const {  id, first_name, last_name, email, id_pair,
 
             idmedical_info_needsdonations, height,
             weight, antibodies,
@@ -137,11 +138,11 @@ class NeedDonationController {
             idpersonal_info_needsdonations, address, city, cell_phone,
             phone_number, country, preferred_language
 
-        } = req.body;
+        } = req.body.values;
 
         var updateNeedsDonation = await needDonationDal.updateNeedsDonation(userId,
             { id, first_name, last_name, email, id_pair });
-        console.log(updateNeedsDonation)
+        console.log(updateNeedsDonation,"updateNeedsDonation")
 
         var updateNeedsMedical = await medicalNeedDonationDal.updateMedicalNeedsDonater(idmedical_info_needsdonations,
             {
@@ -152,7 +153,7 @@ class NeedDonationController {
                 psychosocial_assessment, surgical_procedure,
             });
 
-        console.log(updateNeedsMedical);
+        console.log(updateNeedsMedical,"updateNeedsMedical");
 
         var updatedNeedsPersonal = await personalNeedDonationDal.updatePersonalNeedsDonation(idpersonal_info_needsdonations,
             {
