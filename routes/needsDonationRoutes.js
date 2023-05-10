@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const verifyJWT = require('../middleware/verifyJWT')
+const veriryAdmin=require('../middleware/verifyAdmin')
 const needDonationController = require('../controllers/needDonationController');
-//router.use(verifyJWT)
+router.use(verifyJWT)
 router.route('/')
-    .get(needDonationController.getAllNeedDonation)
+    .get([veriryAdmin],needDonationController.getAllNeedDonation)
     .post(needDonationController.postNeedsDonation)
     .put(needDonationController.updateNeedsDonater)//צריך לכתוב את הפונקציה 
     .delete(needDonationController.deleteOne)

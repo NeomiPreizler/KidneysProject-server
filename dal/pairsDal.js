@@ -40,7 +40,6 @@ class pairsDal {
         return pair;
     }
     deletePair = async (id) => {
-
         return await Pairs.destroy({ where: { [Op.or]: { id_donater: id, id_needsDonation: id } } });
     }
 

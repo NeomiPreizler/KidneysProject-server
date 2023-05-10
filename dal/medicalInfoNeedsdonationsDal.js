@@ -6,7 +6,6 @@ class  medicalInfoNeedsdonationsDal{
         return await MedicalInformation.destroy({ where: {idmedical_info_donater:id}});
       }
     postMedical = async(body)=>{
-        console.log(body,"bodymdical")
         const medicalInformation=await MedicalInformation.create(body);
         return medicalInformation;
     }

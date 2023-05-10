@@ -17,15 +17,12 @@ class needDonationDal {
         return needDonation;
     }
     postNeedsDonation = async (body) => {
-console.log(body,"boddddddddddy");
         const needDonationInfo = await NeedDonations.create(body)
-        console.log(needDonationInfo,"needDonationInfo");
         return needDonationInfo;
     }
 
     findPair = async (idNeedsDonation) => {
-        console.log(idNeedsDonation, "idNeedsDonation");
-        console.log("findPair ");
+        console.log(idNeedsDonation, "idNeedsDonation in find pair");
         //const idToReturn = await 
         //    return NeedDonations.findOne({
         //         attributes:['id_pair'],
@@ -33,21 +30,10 @@ console.log(body,"boddddddddddy");
         //             id: idNeedsDonation,
         //         }
         //     })
-
-
         return false;
-
-        //, attributes: [id_pair]
-        // if (idToReturn)
-        //     return idToReturn//.dataValues.id_pair;
-        // else
-        //     return null;
-        // include : [{ model: Donaters, as: 'donater', attributes:['id_pair'], where:{id_pair:idToCheck}}]
     }
 
-    //  Donaters.findAll({})
     getByUserId = async (userid) => {
-        console.log("needDonation dal",userid);
         const person = await NeedDonations.findOne({
             where: { userId: userid },
             include: [{ model: PersonalNeeds, as: 'needsDonationsPersonal' }, { model: MedicalNeeds, as: 'needsDonationsMedical', required: false }]

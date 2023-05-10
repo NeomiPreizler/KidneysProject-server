@@ -5,38 +5,31 @@ const needDonationDal = require('../dal/needDonationDal')
 const pairDal = require('../dal/pairsDal');
 const userDal = require('../dal/usersDal');
 const mail = require('../utils/email');
-const userController = require('./userController');
-const { loadavg } = require('os');
-const { log } = require('console');
+const {userController} = require('./userController');
 
 class DonaterController {
     getAllDonaters = async (req, res) => {
         // userController.SendingReminderEmailToUsers()
         var donaters = await donaterDal.getAllDonaters();
-        console.log(donaters,"donaterssssss");
-        // if (!donaters?.length) {
-        //     return res.status(400).json({ message: 'No donaters found' })
-        // }
+        if (!donaters?.length) {
+            return res.status(400).json({ message: 'No donaters found' })
+        }
         res.json(donaters)
     }
     getByUserId = async (req, res) => {
-        //console.log("useriddddddddd", req.params.userId);
-        const {id} = req.user
-        const person = await donaterDal.getByUserId(id)
-        //console.log(person)
+        const { id:userId } = req.user
+        const person = await donaterDal.getByUserId(userId)
         res.send(person)
     }
     postDonatersDetails = async (body, userId) => {
-        //console.log(body, "body in funtion");
 
         const { role } = body
-        const idmedical_info_donater=userId;
-        const idpersonal_info_donater=userId;
+        const idmedical_info_donater = userId;
+        const idpersonal_info_donater = userId;
 
-        //console.log(role, "roleeeeeeeenee");
         const { id, email, first_name, last_name, id_pair,
 
-             height, weight, birthDate,
+            height, weight, birthDate,
             gender, high_blood_pressure, blood_type,
             diabetes, kidney_diseases, keidney_stones,
             hospitalized, surgeries_in_the_past,
@@ -45,11 +38,9 @@ class DonaterController {
             family_with_diabetes, born_before_37th_week, CT_examination,
             cheast_examination, urine_Test, psychological_evaluation,
 
-             city,
+            city,
             address, country, phone_number,
             cell_phone, preferred_language } = body;
-        console.log("crasy number", phone_number);
-        console.log("this is for noimi", idmedical_info_donater);
 
         userDal.updateRole(role, userId);
 
@@ -61,7 +52,7 @@ class DonaterController {
         //     res.status(400).json({ message: 'Invalid donater data received' })
         // }
 
-            
+
         let donaterMedical = await medicalInfoDonatersDal.postDonater({
             idmedical_info_donater, height, weight, birthDate,
             gender, high_blood_pressure, blood_type,
@@ -78,7 +69,6 @@ class DonaterController {
         //         } else {
         //             return res.status(400).json({ message: 'Invalid donater data received' })
         //         }
-        console.log("noty phone_number", phone_number);
         let donaterPersonl = await personalInfoDonatersDal.postDonater({
             idpersonal_info_donater, city,
             address, country, phone_number,
@@ -94,17 +84,11 @@ class DonaterController {
     }
 
     postDonater = async (req, res) => {
-    console.log("postDonater in the donatersController") 
-    const {id:userId}  =  req.user
-     //console.log(req.body,"req.body");
-
+        console.log("postDonater in the donatersController")
+        const { id: userId } = req.user
         const { id, id_pair } = req.body;
-        // const { } = req.body;
-        const {role}=req.body
-        console.log(role,"rolerolerole");
+
         let idsPairOfMyPair = await needDonationDal.findPair(id_pair)
-        console.log("for Sarale",id)
-        console.log("also for sarale",id_pair);
         if (idsPairOfMyPair) {
             if (idsPairOfMyPair == id) {
                 await this.postDonatersDetails(req.body, userId);
@@ -128,38 +112,30 @@ class DonaterController {
 
     deleteDonater = async (req, res) => {
 
-        const { id } = req.body
-        if (!id) {// Confirm data
+        const { id: userId } = req.user
+        if (!userId) {// Confirm data
             return res.status(400).json({ message: 'donaters ID required' })
         }
         // if(has_pair){
-        const hasPair = await pairDal.findPair(id);
+        const hasPair = await pairDal.findPair(userId);
         // }
         if (hasPair) {
             const updateNotPair = await needDonationDal.updateNoPair(hasPair.dataValues.id_needsDonation)
-            const id_pair = await pairDal.deletePair(id);
+            const id_pair = await pairDal.deletePair(userId);
         }
-        const donaterMedical = await medicalInfoDonatersDal.deleteDonater(id);
-        const donaterPersonal = await personalInfoDonatersDal.deleteDonater(id);
-        const donater = await donaterDal.deleteDonater(id);
+        const donaterMedical = await medicalInfoDonatersDal.deleteDonater(userId);
+        const donaterPersonal = await personalInfoDonatersDal.deleteDonater(userId);
+        const donater = await donaterDal.deleteDonater(userId);
 
-        // await Book.destroy({ where: {id: id}});
-        // if (remove)
-        res.json(`${id} deleted`)
-        // else
-        //     res.json(`${id} not deleted`)
+        // res.json(`${id} deleted`)
     }
 
     updateDonater = async (req, res) => {
-        console.log("updateDonater in the donatersController") 
+        console.log("updateDonater in the donatersController")
+        const { id: userId } = req.user
+        const idmedical_info_donater = userId;
+        const idpersonal_info_donater = userId;
 
-        //console.log("req.body", req.body)
-        //const {userId} =req.body;
-        //
-        const {id:userId}  =  req.user
-        const idmedical_info_donater=userId;
-        const idpersonal_info_donater=userId;
-        console.log(idmedical_info_donater,"idmedical_info_donater");
         const { id, first_name, last_name, email,
 
             height, weight,
@@ -171,16 +147,14 @@ class DonaterController {
             family_with_kidney_stones,
             famiy_with_clotting_problems,
 
-             city, address, country,
+            city, address, country,
             phone_number, cell_phone, preferred_language } = req.body;
-        console.log(userId, "userIddddddddd in controller");
-        var updateDonater = await donaterDal.updateDonater(userId ,{ id, first_name, last_name, email });
-        console.log(updateDonater,"updateDonater")
-        console.log(height,"highthighthight in controller");
+        var updateDonater = await donaterDal.updateDonater(userId, { id, first_name, last_name, email });
 
         var updatedonaterMedical = await medicalInfoDonatersDal.updateMedicalDonater(
 
-            idmedical_info_donater, {height, weight,
+            idmedical_info_donater, {
+                height, weight,
             high_blood_pressure,
             diabetes, kidney_diseases, kidney_stones,
             heart_or_lung_dysfunction,
@@ -190,13 +164,14 @@ class DonaterController {
             famiy_with_clotting_problems
         });
 
-        console.log(" after updatedonaterMedical",updatedonaterMedical);
+        console.log(" after updatedonaterMedical", updatedonaterMedical);
 
         var updatedonatePersonal = await personalInfoDonatersDal.updateDonaterPersonal(
-            idpersonal_info_donater,{ city,address, country,
+            idpersonal_info_donater, {
+                city, address, country,
             phone_number, cell_phone, preferred_language
         });
-        console.log(updatedonatePersonal,"after updatedonatePersonal")
+        console.log(updatedonatePersonal, "after updatedonatePersonal")
 
         if (!updatedonatePersonal) {
             return res.status(400).json({ message: 'donaterPersonal not found' })

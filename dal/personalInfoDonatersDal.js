@@ -9,8 +9,6 @@ const PersonalInformationDonater = db.personal_info_donaters
 class personalInfoDonatersDal {
 
     postDonater = async (body) => {
-        console.log("in personal", body.idpersonal_info_donater);
-
         const donaterPersonalDetails = await PersonalInformationDonater.create(body);
         return (donaterPersonalDetails);
     }
