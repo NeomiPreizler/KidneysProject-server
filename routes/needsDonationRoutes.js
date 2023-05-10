@@ -10,7 +10,7 @@ router.route('/')
     .put(needDonationController.updateNeedsDonater)//צריך לכתוב את הפונקציה 
     .delete(needDonationController.deleteOne)
 
-router.route('/:userId')
+router.route('/needDonation')
     .get(needDonationController.getByUserId)
 
 
