@@ -29,6 +29,6 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/donater", require("./routes/donatersRoutes"));
 app.use("/api/needDonation", require("./routes/needsDonationRoutes"));
 app.use('/api/crossovers', require("./routes/crossoversRoutes"));
-
+app.use('/api/users',require("./routes/userRoutes"))
 app.listen(PORT, () =>
     console.log(`Server running on port ${PORT}`));     

@@ -8,6 +8,10 @@ const User = db.users;
 
 
 class usersDal {
+    getUserDB=async()=>{
+       const users= await User.findAll({})
+        return users;
+    }
     updateRole=async(Role,user_Id)=>{
             return User.update({role:Role},{where:{userId: user_Id }});
 
